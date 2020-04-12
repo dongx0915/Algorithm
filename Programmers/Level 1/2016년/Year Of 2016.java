@@ -8,9 +8,7 @@ class Solution {
         Calendar startDate = new GregorianCalendar(2016,0,1);
         Calendar lastDate = new GregorianCalendar(2016,a - 1, b);
         long distance = (lastDate.getTimeInMillis() - startDate.getTimeInMillis()) / (24 * 60 * 60 * 1000);
-        
-        String answer = days[(int)distance % 7];
-        
-        return answer;
+    
+        return days[(int)distance % 7];
   }
 }
