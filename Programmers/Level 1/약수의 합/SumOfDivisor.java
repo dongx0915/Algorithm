@@ -5,7 +5,7 @@ class Solution {
             if(n % i == 0) sum += i + (n / i);
         }
         
-        if(i * i == n) sum += i; (제곱수인경우는 위의  for문에서 포함되지 않으므로 마지막에 더해줘야함)
+        if(i * i == n) sum += i; //(제곱수인경우는 위의  for문에서 포함되지 않으므로 마지막에 더해줘야함)
         return sum;
     }
 }
