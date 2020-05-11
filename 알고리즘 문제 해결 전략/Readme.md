@@ -12,7 +12,9 @@ Algorithms|Problem|Source
 (https://emflant.tistory.com/48)
 
 1. 명령어로 코드 자동 생성
-> psvm + tab, sout + tab (설정에서 원하는 명령어를 넣을 수도 있다)
+> psvm + tab
+> sout + tab (설정에서 원하는 명령어를 넣을 수도 있다)
+> for, pst, 
 <hr>
 ### 문제 해결 과정
 
