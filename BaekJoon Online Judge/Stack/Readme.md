@@ -1,2 +1,7 @@
-### 백준 17298 풀이방식
-https://emmadeveloper.tistory.com/25
+### 백준 17298 오큰수 풀이방식
+
+  1. 스택에 첫 숫자의 인덱스를 넣는다.
+  2. 다음 수부터 스택의 Top과 비교한다.
+       - Top보다 sequence[i] 가 크면 result[top] = sequence[i] 
+       - 스택이 비었거나, Top이 sequence[i] 보다 크면 멈춘다.
+  3. 반복문이 끝나도 스택에 남아있으면 오큰수가 없는 수
