@@ -18,10 +18,7 @@ public class CraneClawMachineGame {
      */
     public static int solution(int[][] board, int[] moves) {
         Stack<Integer> picked = new Stack<>();
-        String[] character = {"네오", "달걀", "공룡", "어피치", "프로도"};
-        
         int answer = 0;
-        int row = board[0].length;
         int col = board.length;
         
         for (int move : moves) {
@@ -30,7 +27,6 @@ public class CraneClawMachineGame {
                 if(board[i][move-1] != 0){
                     if(!picked.isEmpty()) lastPick = picked.peek();
                     if(lastPick == board[i][move-1]){
-                        System.out.println(character[lastPick - 1]);
                         answer++;
                         picked.pop();
                     }
