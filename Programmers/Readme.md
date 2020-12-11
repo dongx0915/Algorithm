@@ -26,3 +26,5 @@ Level 1 - 17 | 행렬의 덧셈 | [Contents](https://programmers.co.kr/learn/cou
 Level 1 - 18 | 문자열 내 p와 y의 개수 | [Contents](https://programmers.co.kr/learn/courses/30/lessons/12916) | [NumberOfPandY.java](./Level%201/문자열%20내%20p와%20y의%20개수/NumberOfPandY.java)
 Level 1 - 19 | 직사각형 별찍기 | [Contents](https://programmers.co.kr/learn/courses/30/lessons/12969) | [PrintStar.java](./Level%201/직사각형%20별찍기/PrintStar.java)
 Level 1 - 20 | 문자열 내림차순으로 배치하기 | [Contents](https://programmers.co.kr/learn/courses/30/lessons/12917) | [StringToDescendingOrder.java](./Level%201/문자열%20내림차순으로%20배치하기/StringToDescendingOrder.java)
+Level 1 - 21 | 크레인 인형뽑기 게임 | [Contents](https://programmers.co.kr/learn/courses/30/lessons/64061) | [CraneClawMachineGame.java](./Level%201/크레인%20인형뽑기%20게임/CraneClawMachineGame.java)
+
