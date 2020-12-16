@@ -18,6 +18,23 @@ public class ATM {
      * @param args the command line arguments
      */
     
+    public static long getMinimumTime(int[] drawTime) {
+        long sum = 0;
+        int n = drawTime.length;
+        for (int i = 0; i < n; i++) {
+            sum += drawTime[i] * (n - i);
+        }
+        
+        /*
+        * 1                  => arr[0] 5번
+        * 1 + 2              => arr[1] 4번       ==> 이전 값에 현재 값을 계속 더해가는 방식
+        * 1 + 2 + 3          => arr[2] 3번       ==> sum += drawTime[i] * (n - i);로 나타낼 수 있다.
+        * 1 + 2 + 3 + 3      => arr[3] 2번       
+        * 1 + 2 + 3 + 3 + 4  => arr[4] 1번
+        */
+        return sum;
+    }
+    
     public static int getMinimumTime(int[] drawTime){
         int[] time = new int[drawTime.length];
         int sum = time[0] = drawTime[0];
