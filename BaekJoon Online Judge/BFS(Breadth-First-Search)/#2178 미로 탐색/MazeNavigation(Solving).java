@@ -24,13 +24,13 @@ class Point {
     }
 }
 
-public class MazeNavigation {
+public class JavaApplication4 {
 
     /**
      * @param args the command line arguments
      */
     static int col, row;
-    static int[][] maze;
+    static String[] maze;
     static int[] dx = {0, 1, 0, -1};
     static int[] dy = {-1, 0, 1, 0};
     static boolean[][] visited;
@@ -42,10 +42,10 @@ public class MazeNavigation {
         if (visited[x][y]) {
             return false;         //이미 방문한 곳이면 false
         }
-        return maze[x][y] != 0;
+        return maze[x].charAt(y) != '0';
     }
 
-    public static int searchShortestRoute(int[][] maze) {
+    public static int searchShortestRoute(String[] maze) {
         System.out.println("들어옴");
         int dist = 1;
         boolean isArrived = false;
@@ -55,9 +55,8 @@ public class MazeNavigation {
         visited[0][0] = true;
 
         while (!q.isEmpty()) {
-            System.out.println("돌고있다.");
             int thisTurnSize = q.size();
-            
+            System.out.println("이번 턴 사이즈 : " + thisTurnSize);
             for (int i = 0; i < thisTurnSize; i++) {
                 Point nowP = q.poll();
                 
@@ -83,15 +82,12 @@ public class MazeNavigation {
 
         col = sc.nextInt();
         row = sc.nextInt();
-        maze = new int[col][row];
+        maze = new String[col];
         visited = new boolean[col][row];
 
         
         for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                System.out.printf("maze[%d][%d] = ", i,j);
-                maze[i][j] = sc.nextInt();
-            }
+            maze[i] = sc.next();
         }
         
         System.out.println(searchShortestRoute(maze));
