@@ -5,10 +5,10 @@
  */
 package BaekJoon;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 /**
  *
@@ -26,16 +26,17 @@ public class DFSandBFS {
     static int[][] adjacent;                //인접 행렬 (ArrayList[] 타입으로도 표현해보기)
     static boolean[] visited;
     
-    public static ArrayList<Integer> BFS(){
-        ArrayList<Integer> print = new ArrayList<>();
+    public static String BFS(){
+        
         Queue<Integer> q = new LinkedList<>();
+        StringJoiner sj = new StringJoiner(" ");
         q.add(root);
         visited[root] = true;
         
         while(!q.isEmpty()){
             int nowNode = q.poll();
             
-            print.add(nowNode);              //방문하는 즉시 출력
+            sj.add(nowNode + "");              //방문하는 즉시 출력
             
             for (int i = 0; i < vortex + 1; i++) {
                 if(visited[i] == false && adjacent[nowNode][i] == 1){      //현재 노드랑 연결되어있는 노드이면
@@ -45,7 +46,7 @@ public class DFSandBFS {
             }
         }
         
-        return print;
+        return sj.toString();
     }
     
     public static void main(String[] args) {
@@ -63,17 +64,10 @@ public class DFSandBFS {
         for (int i = 0; i < edge; i++) {
             int node1 = sc.nextInt();
             int node2 = sc.nextInt();
-            adjacent[node1][node2] = 1;
-            adjacent[node2][node1] = 1;
+            adjacent[node1][node2] = adjacent[node2][node1] = 1;
         }
         
-//        for (int i = 0; i < vortex + 1; i++) {
-//            for (int j = 0; j < vortex + 1; j++) {
-//                System.out.print(adjacent[i][j] + " ");
-//            }
-//            System.out.println("");
-//        }
-        BFS();
+        System.out.println(BFS());
     }
     
 }
