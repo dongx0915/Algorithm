@@ -1,4 +1,4 @@
-## <img src ="https://d2gd6pc034wcta.cloudfront.net/tier/9.svg" width="20px"> DFS와 BFS
+# <img src ="https://d2gd6pc034wcta.cloudfront.net/tier/9.svg" width="20px"> DFS와 BFS
 
 ## 문제
 
