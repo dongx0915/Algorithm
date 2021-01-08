@@ -43,15 +43,16 @@ public class DFSandBFS {
             
             for (int i = 0; i < vortex + 1; i++) {
                 if(visited[i] == false && adjacent[nowNode][i] == 1){
-                    s.push(i);
-                    sj.add(i + "");
+                    s.push(i);                                          //노드를 push
+                    sj.add(i + "");                                     //출력
                     
                     visited[i] = true;
                     flag = true;
-                    break;
+                    break;                                              //노드 하나를 push하면 break    
+                                                                        //노드 하나를 push 했으면 해당 노드의 자식을 봐야하므로 break 후 반복문 처음으로 돌아간다.
                 }
             }
-            if(!flag){
+            if(!flag){                                                  //만약 방문할 노드가 없으면 pop한다.
                 s.pop();
             }
         }
