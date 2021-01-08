@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package BaekJoon;
+package Baekjoon1260;
 
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.StringJoiner;
 
 /**
@@ -24,9 +25,42 @@ public class DFSandBFS {
     static int edge;                        //간선의 개수
     static int root;                        //시작할 노드(루트 노드)
     static int[][] adjacent;                //인접 행렬 (ArrayList[] 타입으로도 표현해보기)
-    static boolean[] visited;
     
+    
+    public static String DFS(){
+        boolean[] visited = new boolean[vortex + 1];
+        Stack<Integer> s = new Stack<>();
+        StringJoiner sj = new StringJoiner(" ");
+        
+        s.push(root);
+        visited[root] = true;
+        sj.add(root + "");
+        
+        while(!s.isEmpty()){
+            int nowNode = s.peek();
+            boolean flag = false;
+            visited[nowNode] = true;
+            
+            for (int i = 0; i < vortex + 1; i++) {
+                if(visited[i] == false && adjacent[nowNode][i] == 1){
+                    s.push(i);
+                    sj.add(i + "");
+                    
+                    visited[i] = true;
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag){
+                s.pop();
+            }
+        }
+        
+        
+        return sj.toString();
+    }
     public static String BFS(){
+        boolean[] visited = new boolean[vortex + 1];
         
         Queue<Integer> q = new LinkedList<>();
         StringJoiner sj = new StringJoiner(" ");
@@ -38,7 +72,7 @@ public class DFSandBFS {
             
             sj.add(nowNode + "");              //방문하는 즉시 출력
             
-            for (int i = 0; i < vortex + 1; i++) {
+            for (int i = 1; i < vortex + 1; i++) {
                 if(visited[i] == false && adjacent[nowNode][i] == 1){      //현재 노드랑 연결되어있는 노드이면
                     q.add(i);   
                     visited[i] = true;
@@ -59,7 +93,7 @@ public class DFSandBFS {
         root = sc.nextInt();
         
         adjacent = new int[vortex + 1][vortex + 1];
-        visited = new boolean[vortex + 1];
+        
         
         for (int i = 0; i < edge; i++) {
             int node1 = sc.nextInt();
@@ -67,7 +101,7 @@ public class DFSandBFS {
             adjacent[node1][node2] = adjacent[node2][node1] = 1;
         }
         
+        System.out.println(DFS());
         System.out.println(BFS());
     }
-    
 }
