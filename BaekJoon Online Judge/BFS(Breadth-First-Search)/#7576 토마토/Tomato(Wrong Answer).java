@@ -47,43 +47,45 @@ public class Tomato {
 
     public static int learningTomatoes() {
         Queue<Point>[] q = new LinkedList[ripePos.size()];
+        Queue<Integer>[] dayQ = new LinkedList[ripePos.size()];
         int day = 0;
         int ripeTomato = ripePos.size();
         int ripened = 0;
-        boolean flag = false;
         
         for (int i = 0; i < ripeTomato; i++) {
             q[i] = new LinkedList<>();
             q[i].add(ripePos.get(i));
+            dayQ[i] = new LinkedList<>();
+            dayQ[i].add(day);
         }
-
+        
         while (!everyQIsEmpty(q)) {
-            flag = false;
+            
             for (int i = 0; i < ripeTomato; i++) {
-                if (undercook == ripened) return day;
                 if (!q[i].isEmpty()) {
                     Point now = q[i].poll();
+                    day = dayQ[i].poll();
                     
-                    System.out.printf("q[%d] %d 일의 현재 위치는 [%d][%d]\n", i, day, now.x, now.y);
+                    //System.out.printf("q[%d] %d 일의 현재 위치는 [%d][%d]\n", i, day, now.x, now.y);
                     for (int j = 0; j < 4; j++) {
                         Point next = new Point(now.x + dx[j], now.y + dy[j]);
                         
                         if (next.x < 0 || next.x >= height || next.y < 0 || next.y >= width) continue;
                         if (box[next.x][next.y] == 0) {
-                            System.out.printf("%d일 q[%d]에 [%d][%d] 푸쉬\n", day, i, next.x, next.y);
+                            //System.out.printf("%d일 q[%d]에 [%d][%d] 푸쉬\n", day, i, next.x, next.y);
                             q[i].add(next);
-                            ripened++;
+                            dayQ[i].add(day + 1);
                             box[next.x][next.y] = 1;
-                            flag = true;
+                            ripened++;
+                            
                         }
                     }
                 }
-                
+//                if (undercook == ripened) return day;
             }
-            System.out.println("");
-            if(flag) day++;
+            //System.out.println("");
         }
-        return day;
+        return (undercook != ripened) ? -1 : day;
     }
 
     public static int getRipenDay() {
@@ -98,7 +100,7 @@ public class Tomato {
                 if (box[i][j] == 0) undercook++;
             }
         }
-        System.out.println("안익은 토마토 개수 : " + undercook);
+        //System.out.println("안익은 토마토 개수 : " + undercook);
         return learningTomatoes();
     }
 
