@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tomato;
 
 import java.util.ArrayList;
@@ -14,18 +9,7 @@ import java.util.Scanner;
  *
  * @author Donghyeon <20183188>
  */
-class Point {
-
-    int x;
-    int y;
-
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-public class Tomato {
+public class Tomatoes {
 
     /**
      * @param args the command line arguments
@@ -34,7 +18,8 @@ public class Tomato {
     public static int ripe = 0, undercook = 0;                   //익은 토마토, 안익은 토마토
     public static int[][] box;
     public static int[] dx = {0, -1, 0, 1}, dy = {-1, 0, 1, 0};
-    public static ArrayList<Point> ripePos;
+    public static Queue<Point> q = new LinkedList<>();
+    public static Queue<Integer> dayQ = new LinkedList<>();
 
     public static boolean everyQIsEmpty(Queue<Point>[] q) {
         for (Queue<Point> q1 : q) {
@@ -46,61 +31,41 @@ public class Tomato {
     }
 
     public static int learningTomatoes() {
-        Queue<Point>[] q = new LinkedList[ripePos.size()];
-        Queue<Integer>[] dayQ = new LinkedList[ripePos.size()];
         int day = 0;
-        int ripeTomato = ripePos.size();
         int ripened = 0;
-        
-        for (int i = 0; i < ripeTomato; i++) {
-            q[i] = new LinkedList<>();
-            q[i].add(ripePos.get(i));
-            dayQ[i] = new LinkedList<>();
-            dayQ[i].add(day);
-        }
-        
-        while (!everyQIsEmpty(q)) {
-            
-            for (int i = 0; i < ripeTomato; i++) {
-                if (!q[i].isEmpty()) {
-                    Point now = q[i].poll();
-                    day = dayQ[i].poll();
-                    
-                    //System.out.printf("q[%d] %d 일의 현재 위치는 [%d][%d]\n", i, day, now.x, now.y);
-                    for (int j = 0; j < 4; j++) {
-                        Point next = new Point(now.x + dx[j], now.y + dy[j]);
-                        
-                        if (next.x < 0 || next.x >= height || next.y < 0 || next.y >= width) continue;
-                        if (box[next.x][next.y] == 0) {
-                            //System.out.printf("%d일 q[%d]에 [%d][%d] 푸쉬\n", day, i, next.x, next.y);
-                            q[i].add(next);
-                            dayQ[i].add(day + 1);
-                            box[next.x][next.y] = 1;
-                            ripened++;
-                            
-                        }
-                    }
+
+        while (!q.isEmpty()) {
+            Point now = q.poll();
+            day = dayQ.poll(); 
+
+            for (int j = 0; j < 4; j++) {
+                Point next = new Point(now.x + dy[j], now.y + dx[j]);
+
+                if (next.x < 0 || next.x >= height || next.y < 0 || next.y >= width)continue;
+                if (box[next.x][next.y] == 0) {
+                    q.add(next);
+                    dayQ.add(day + 1);
+                    box[next.x][next.y] = 1;
+                    ripened++;
                 }
-//                if (undercook == ripened) return day;
             }
-            //System.out.println("");
         }
         return (undercook != ripened) ? -1 : day;
     }
 
     public static int getRipenDay() {
-        
-
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (box[i][j] == 1) {
-                    ripePos.add(new Point(i, j));
+                    q.add(new Point(i, j));
+                    dayQ.add(0);
                     ripe++;
                 }
-                if (box[i][j] == 0) undercook++;
+                if (box[i][j] == 0) {
+                    undercook++;
+                }
             }
         }
-        //System.out.println("안익은 토마토 개수 : " + undercook);
         return learningTomatoes();
     }
 
@@ -111,7 +76,6 @@ public class Tomato {
         width = sc.nextInt();
         height = sc.nextInt();
 
-        ripePos = new ArrayList<>();
         box = new int[height][width];
 
         //1은 익은 토마토
@@ -122,8 +86,7 @@ public class Tomato {
                 box[i][j] = sc.nextInt();
             }
         }
-        
+
         System.out.println(getRipenDay());
     }
-
 }
