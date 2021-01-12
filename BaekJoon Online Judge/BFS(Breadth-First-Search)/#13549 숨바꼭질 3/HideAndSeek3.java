@@ -38,8 +38,8 @@ public class HideAndSeek3 {
             Data now = q.poll();
             visited[now.posit] = true;
             
-            if(now.posit == bp) if(min > now.time) min = now.time;                                          //순간이동은 시간이 걸리지 않기 때문에 bfs에서 가장 먼저 동생을 잡는 경우가
-                                                                                                            //최소 시간이 아닐 수 있으므로 최솟 값을 구해준다.
+            if(now.posit == bp) if(min > now.time) min = now.time;          //순간이동은 시간이 걸리지 않기 때문에 bfs에서 가장 먼저 동생을 잡는 경우가
+                                                                            //최소 시간이 아닐 수 있으므로 최솟 값을 구해준다.
             for (int i = 0; i < 3; i++) {
                 Data next = new Data((now.posit + dx[i]) * dy[i], (i == 2) ? now.time : now.time + 1);      //순간이동(x * 2)인 경우에는 시간을 증가시키지 않음
                 if(next.posit < 0 || next.posit > 100000) continue;
