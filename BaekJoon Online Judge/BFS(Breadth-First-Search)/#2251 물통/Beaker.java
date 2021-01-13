@@ -49,6 +49,14 @@ public class Beaker {
             int a = now.a;
             int b = now.b;
             int c = beaker[2] - now.a - now.b;
+            /*
+            * q에 add를 할 때가 아니라 poll을 할 때 정답을 체크 && 방문을 체크하면 continue를 하면안됨
+            *    visited[a][b] = true;
+            *    if(now.a == 0){
+            *       answer[c] = true;
+            *       continue;         <---- 이 부분 때문에 정답이 안나옴(A가 비어있는 경우 C의 상태를 출력하는 것이므로 첫 경우부터 걸림. 즉, 이후 경우의 수를 볼 수가 없음
+            *    }
+            */
             
             for (int i = 0; i < 6; i++) {
                 int[] next = {a,b,c};               //현재 비커들의 상태로 저장
