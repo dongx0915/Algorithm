@@ -15,20 +15,11 @@ public class Tomatoes {
      * @param args the command line arguments
      */
     public static int width, height;
-    public static int ripe = 0, undercook = 0;                   //익은 토마토, 안익은 토마토
+    public static int undercook = 0;                   //익은 토마토, 안익은 토마토
     public static int[][] box;
     public static int[] dx = {0, -1, 0, 1}, dy = {-1, 0, 1, 0};
     public static Queue<Point> q = new LinkedList<>();
     public static Queue<Integer> dayQ = new LinkedList<>();
-
-    public static boolean everyQIsEmpty(Queue<Point>[] q) {
-        for (Queue<Point> q1 : q) {
-            if (!q1.isEmpty()) {       //하나라도 비어있지 않으면 false 리턴
-                return false;
-            }
-        }
-        return true;
-    }
 
     public static int learningTomatoes() {
         int day = 0;
@@ -59,11 +50,8 @@ public class Tomatoes {
                 if (box[i][j] == 1) {
                     q.add(new Point(i, j));
                     dayQ.add(0);
-                    ripe++;
                 }
-                if (box[i][j] == 0) {
-                    undercook++;
-                }
+                if (box[i][j] == 0) undercook++;
             }
         }
         return learningTomatoes();
