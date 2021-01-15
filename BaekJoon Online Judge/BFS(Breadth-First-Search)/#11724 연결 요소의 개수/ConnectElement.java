@@ -28,14 +28,15 @@ public class Element {
     public static int bfs(int root){
         Queue<Integer> q = new LinkedList<>();
         q.add(root);
+        visited[root] = true;
         
         while(!q.isEmpty()){
             int now = q.poll();
-            visited[now] = true;
             
             for (int i = 1; i < vortex + 1; i++) {
                 if(adjacent[now][i] == 1 && !visited[i]){
                     q.add(i);
+                    visited[i] = true;                      //enqueue하면서 같이 visited 체크를 해줘야 반복 횟수가 줄어듦(dequeue하면서 방문체크하면 시간초과남)
                 }
             }
         }
