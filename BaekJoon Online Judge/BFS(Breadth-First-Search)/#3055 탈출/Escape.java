@@ -51,9 +51,9 @@ public class Escape {
             Point nowHog = hedgehog.poll();
             //map[nowHog.x].setCharAt(nowHog.y, '#');
 
-            if (nowT != time.peek()) {
+            if (nowT != time.peek()) {  
                 int qsize = water.size();
-                while (qsize-- != 0) {
+                while (qsize-- != 0) {      //한 턴에 갈 수 있는 경우가 큐에 들어가므로 큐 사이즈만큼만 돌면 한 턴씩만 순회를 할 수 있다.
                     Point nowWater = water.poll();
 
                     for (int i = 0; i < 4; i++) {
