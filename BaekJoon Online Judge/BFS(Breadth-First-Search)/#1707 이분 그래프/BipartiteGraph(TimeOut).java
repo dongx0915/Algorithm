@@ -5,6 +5,9 @@
  */
 package Baekjoon.BipartiteGraph;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -27,6 +30,7 @@ class Node{
     public void setColor(int color) {
         this.color = color;
     }
+    
 }
 
 public class BipartiteGraph {
@@ -37,10 +41,11 @@ public class BipartiteGraph {
     public static boolean[] visited;
     public static void addEdge(int n1, int n2){
         if(!node[n1].adjcent.contains(n2)) node[n1].adjcent.add(n2);
+        //if(!node[n2].adjcent.contains(n1)) node[n2].adjcent.add(n1);
     }
     
     public static boolean bfs(Node root){
-
+//        boolean[] visited = new boolean[vortex + 1];
         //System.out.println("node[" + root.vortex + "] 호출됨");
         Queue<Node> q = new LinkedList<>();
         
@@ -69,15 +74,29 @@ public class BipartiteGraph {
         }
         return "YES";
     }
-
-    public static void main(String[] args) {
+    
+    public static void printNode(){
+        for (Node node1 : node) {
+            System.out.print(node1.vortex + " : ");
+            
+            for (Integer integer : node1.adjcent) {
+                System.out.print(integer + "[" + node[integer].color + "] ");
+            }
+            System.out.println("");
+        }
+    }
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
-        test = sc.nextInt();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        test = Integer.parseInt(br.readLine());
         
         while(test-- != 0){
-            vortex = sc.nextInt();
-            edge = sc.nextInt();
+            String[] input = br.readLine().split(" ");
+            vortex = Integer.parseInt(input[0]);
+            edge = Integer.parseInt(input[1]);
+            
             node = new Node[vortex + 1];
             visited = new boolean[vortex + 1];
             for (int i = 0; i < vortex + 1; i++) {
@@ -85,9 +104,9 @@ public class BipartiteGraph {
             }
             
             for (int i = 0; i < edge; i++) {
-                addEdge(sc.nextInt(), sc.nextInt());
+                input = br.readLine().split(" ");
+                addEdge(Integer.parseInt(input[0]), Integer.parseInt(input[1]));
             }
-            
             System.out.println(isBipartiteGraph());
         }
     }
