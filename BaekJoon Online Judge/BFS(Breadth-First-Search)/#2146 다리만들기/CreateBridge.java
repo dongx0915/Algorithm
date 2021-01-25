@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Baekjoon;
+package Baekjoon.CreateBridge;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -39,9 +40,69 @@ public class CreateBridge {
         }
     }
     
-    public static void setAreaBfs(Point root, int index){
-        Queue<Point> q = new LinkedList<>();
+    public static void init_visited(){
+        for (boolean[] bs : visited) {
+            Arrays.fill(bs, false);
+        }
+    }
+    
+    public static boolean isEdge(Point next){       // 4 방향 모두 0이 아니면 가장자리가 아님
+        for (int i = 0; i < 4; i++) {
+            Point nxt = new Point(next.x + dx[i], next.y + dy[i]);
+            if(nxt.x < 0 || nxt.x >= N || nxt.y < 0 || nxt.y >= N) continue;
+            if(map[nxt.x][nxt.y] != 0) continue;
+            return true;
+        }
         
+        return false;
+    }
+    public static int findBridge_bfs(Point root){
+        init_visited();                             //visited 초기화
+        int root_idx = map[root.x][root.y];
+        Queue<Point> q = new LinkedList<>();
+        Queue<Integer> dis_q = new LinkedList<>();
+        
+        q.add(root);
+        visited[root.x][root.y] = true;
+        dis_q.add(0);
+        
+        while(!q.isEmpty()){
+            Point now = q.poll();
+            int dis = dis_q.poll();
+
+            for (int i = 0; i < 4; i++) {
+                Point next = new Point(now.x + dx[i], now.y + dy[i]);
+                if(next.x < 0 || next.x >= N || next.y < 0 || next.y >= N) continue;
+                if(map[next.x][next.y] != 0 && map[next.x][next.y] != root_idx) return dis;
+                if(map[next.x][next.y] != 0) continue;                      // 틀린이유 : 여기서 isEdge를 체크했음
+                if(!visited[next.x][next.y]){
+                    q.add(next);
+                    dis_q.add(dis + 1);
+                    visited[next.x][next.y] = true;
+                }
+            }
+        }
+        
+        return 9999;
+    }
+    
+    public static int getShortestBridge(){
+        int min = 9999;
+        init_visited();
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (map[i][j] != 0 && isEdge(new Point(i,j))) { //0이 아니고 엣지이면
+                    int dis = findBridge_bfs(new Point(i,j));
+                    if (dis >= 0) if (min > dis) min = dis;
+                }
+            }
+        }
+        
+        return min;
+    }
+    
+    public static void setAreaBfs(Point root, int index, boolean[][] visited){
+        Queue<Point> q = new LinkedList<>();
         
         q.add(root);
         visited[root.x][root.y] = true;
@@ -63,13 +124,14 @@ public class CreateBridge {
     }
     
     public static void setArea(){
-        int index = 1;
+        int index = 2;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if(map[i][j] == 1 && !visited[i][j]) setAreaBfs(new Point(i,j), index++);
+                if(map[i][j] == 1 && !visited[i][j]) setAreaBfs(new Point(i,j), index++, visited);
             }
         }
     }
+    
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
@@ -85,7 +147,7 @@ public class CreateBridge {
         }
         
         setArea();
-        printMap();
+        System.out.println(getShortestBridge());
     }
     
 }
