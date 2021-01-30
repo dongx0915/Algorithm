@@ -5,9 +5,13 @@
  */
 package SetClassRoom;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -45,15 +49,18 @@ public class Main {
         return 1 + getClassroom(lec_list);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
         
-        int n = sc.nextInt();
+        int n = Integer.parseInt(br.readLine());
         ArrayList<Lecture> lec_list = new ArrayList<>();
         
         for (int i = 0; i < n; i++) {
-            lec_list.add(new Lecture(sc.nextInt(), sc.nextInt()));
+            st = new StringTokenizer(br.readLine(), " ");
+            lec_list.add(new Lecture(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
         }
         
         Collections.sort(lec_list);
