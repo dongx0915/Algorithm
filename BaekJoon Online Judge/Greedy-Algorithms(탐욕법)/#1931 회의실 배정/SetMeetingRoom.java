@@ -6,8 +6,6 @@
 package SetMeetingRoom;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -17,22 +15,16 @@ import java.util.Scanner;
 class Meeting implements Comparable<Meeting>{
     int start_time;
     int end_time;
-    boolean selected = false;
     
     public Meeting(int start_time, int end_time) {
         this.start_time = start_time;
         this.end_time = end_time;
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-    
     @Override
     public int compareTo(Meeting o) {
-        if(this.start_time > o.start_time)return 1;
-        else if(this.start_time < o.start_time)return -1;
-        else return 0;
+        if(this.end_time == o.end_time) return this.start_time - o.start_time;
+        return this.end_time - o.end_time;
     }
 }
 
@@ -46,15 +38,15 @@ public class Main {
     public static int getMaxMeeting(int n, Meeting[] meeting){
         int meet_cnt = 1;
         Meeting now_m = meeting[0];
-        now_m.setSelected(true);
         
-        for (int i = 0; i < n; i++) {
-            Meeting next_m = meeting[i];
-            if (next_m.selected) continue;
-
-            
+        for (int i = 1; i < n; i++) {
+            Meeting next_n = meeting[i];
+            if(now_m.end_time <= next_n.start_time) {
+                now_m = next_n;
+                meet_cnt++;
+            }
         }
-        
+ 
         return meet_cnt;
     }
     public static void main(String[] args) {
@@ -66,29 +58,9 @@ public class Main {
         for (int i = 0; i < n; i++) {
             meeting[i] = new Meeting(sc.nextInt(), sc.nextInt());
         }
-        //Arrays.sort(meeting);
+
         
-        Arrays.sort(meeting, new Comparator<Meeting>(){
-            @Override
-            public int compare(Meeting m1, Meeting m2){
-                if(m1.end_time > m2.end_time) return 1;
-                else if(m1.end_time < m2.end_time) return -1;
-                else return 0;
-            }
-        });
-        
-        Arrays.sort(meeting, new Comparator<Meeting>() {
-            @Override
-            public int compare(Meeting m1, Meeting m2){
-                if(m1.start_time > m2.start_time) return 1;
-                else if(m1.start_time < m2.start_time) return -1;
-                else return 0;
-            }
-        });
-        
-        for (Meeting m : meeting) {
-            System.out.println(m.start_time + " " + m.end_time);
-        }
+        Arrays.sort(meeting);
         
         System.out.println(getMaxMeeting(n, meeting));
     }
