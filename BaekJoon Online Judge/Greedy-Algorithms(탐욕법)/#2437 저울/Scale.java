@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package Greedy.Baekjoon2437;
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -28,7 +26,7 @@ public class Main {
         
         return min_weight + 1;
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
