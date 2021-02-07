@@ -39,17 +39,19 @@ public class Main {
     
     public static long getMaxPrice(int n, int k, PriorityQueue<Integer> bag, PriorityQueue<Jewelry> jw){
         long result = 0;
-        Object[] bags = (Object[])bag.toArray();
+        int[] bags= bag.stream().mapToInt(Integer::intValue).toArray();
+        
         
         while(!jw.isEmpty()){
             Jewelry now = jw.poll();
-            
-            for (Object b : bags) {
-                if((Integer)b == -1) continue;
-                if(now.weight <= (Integer)b){
-                    System.out.println(now.value);
-                    b = -1;
+            //System.out.println("now = " + now.weight + " " + now.value);
+            for (int i = 0; i < bags.length; i++) {
+                //System.out.println("bag = " + bags[i]);
+                if(bags[i] == -1) continue;
+                if(now.weight <= bags[i]){
+                    bags[i] = -1;
                     result += now.value;
+                    break;
                 }
             }
         }
@@ -73,9 +75,9 @@ public class Main {
             bag_pq.add(sc.nextInt());
         }
         
-        bag_pq.forEach(integer -> {
-            System.out.println(integer);
-        });
+//        bag_pq.forEach(integer -> {
+//            System.out.println(integer);
+//        });
         
         System.out.println(getMaxPrice(n,k,bag_pq,jw_pq));
     }
