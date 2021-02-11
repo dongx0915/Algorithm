@@ -12,6 +12,20 @@ import java.util.Scanner;
  *
  * @author Donghyeon <20183188>
  */
+class Section implements Comparable<Section>{
+    int value;
+    int rank = 1;
+    int index;
+    public Section(int value, int index) {
+        this.value = value;
+        this.index = index;
+    }
+    
+    @Override
+    public int compareTo(Section o){
+        return this.rank - o.rank;
+    }
+}
 public class Main {
 
     /**
@@ -20,13 +34,29 @@ public class Main {
     
     public static int getReceiveableArea(int n, int k, int[] sensor){
         int result = 0;
-        int[] section = new int[n - 1];
+        Section[] section = new Section[n - 1];
         int[] max_index = new int[k - 1];
         
         for (int i = 0; i < n - 1; i++) {
-            section[i] = sensor[i + 1] - sensor[i]; 
+            section[i] = new Section(sensor[i + 1] - sensor[i], i + 1); 
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1; j++) {
+                if(section[i].value < section[j].value) section[i].rank++;
+            }
         }
         
+        for (Section section1 : section) {
+            System.out.print(section1.rank + " ");
+        }
+        Arrays.sort(section);
+        System.out.println("");
+        
+        for (Section section1 : section) {
+            System.out.println(section1.rank + " " + section1.index);
+        }
+        System.out.println("");
         return result;
     }
     
@@ -42,6 +72,8 @@ public class Main {
         }
         
         Arrays.sort(sensor);
+        
+        System.out.println(getReceiveableArea(n, k, sensor));
     }
     
 }
