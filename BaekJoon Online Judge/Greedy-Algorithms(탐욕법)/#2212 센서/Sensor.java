@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Greedy.Baekjoon2212;
 
 import java.util.Arrays;
@@ -13,8 +8,8 @@ import java.util.Scanner;
  * @author Donghyeon <20183188>
  */
 class Section implements Comparable<Section>{
-    int value;
-    int rank = 1;
+    int value;          //센서 사이의 거리
+    int rank = 1;   
     int index;
     public Section(int value, int index) {
         this.value = value;
@@ -26,19 +21,16 @@ class Section implements Comparable<Section>{
         return this.rank - o.rank;
     }
 }
-public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
-    
+public class Main {
     public static int getReceiveableArea(int n, int k, int[] sensor){
-        int result = 0;
+        int[] index = new int[k];
+        int[] section_int = new int[n - 1];
         Section[] section = new Section[n - 1];
-        int[] max_index = new int[k - 1];
         
         for (int i = 0; i < n - 1; i++) {
-            section[i] = new Section(sensor[i + 1] - sensor[i], i + 1); 
+            section[i] = new Section(sensor[i + 1] - sensor[i], i); 
+            section_int[i] = section[i].value;
         }
 
         for (int i = 0; i < n - 1; i++) {
@@ -46,18 +38,26 @@ public class Main {
                 if(section[i].value < section[j].value) section[i].rank++;
             }
         }
-        
-        for (Section section1 : section) {
-            System.out.print(section1.rank + " ");
-        }
+ 
         Arrays.sort(section);
-        System.out.println("");
         
-        for (Section section1 : section) {
-            System.out.println(section1.rank + " " + section1.index);
+        for (int i = 0; i < k - 1; i++) {index[i] = section[i].index;}
+        index[k - 1] = n - 1;
+        
+        Arrays.sort(index);
+        
+        int sum = 0;
+        int cnt = 0;
+        for (int i = 0; i < n - 1; i++) {
+            if(i == index[cnt]){
+                cnt++;
+                continue;
+            }
+            sum += section_int[i];
         }
-        System.out.println("");
-        return result;
+
+        
+        return sum;
     }
     
     public static void main(String[] args) {
@@ -72,8 +72,8 @@ public class Main {
         }
         
         Arrays.sort(sensor);
-        
-        System.out.println(getReceiveableArea(n, k, sensor));
+        if(n < k) System.out.println("0");
+        else System.out.println(getReceiveableArea(n, k, sensor));
     }
     
 }
