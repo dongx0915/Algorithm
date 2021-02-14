@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Greedy.Baekjoon1689;
 
 import java.util.Arrays;
@@ -39,22 +34,17 @@ public class Main {
         int max = 0;
         int cnt = 1;
         Line now = line[0];
-        boolean flag = false;
         
         for (int i = 1; i < n; i++) {
             Line next = line[i];
-            if(now.s <= next.s && now.e >= next.e) {
-                cnt++;
-                flag = true;
-            }
+            if(next.s < now.e) cnt++;
             else{
                 max = Math.max(max, cnt);
                 cnt = 1;
-                now = line[i];
             }
+            now = line[i];
         }
         
-        if(!flag) return 0;
         return Math.max(max, cnt);
     }
     
@@ -65,16 +55,18 @@ public class Main {
         Line[] line = new Line[n];
         
         for (int i = 0; i < n; i++) {
-            line[i] = new Line(sc.nextInt(), sc.nextInt());
+            int start = sc.nextInt();
+            int end = sc.nextInt();
+            if(start > end){
+                int temp = start;
+                start = end;
+                end = temp;
+            }
+            
+            line[i] = new Line(start, end);
         }
         
         Arrays.sort(line);
-        
-//        for (Line line1 : line) {
-//            System.out.println(line1.s + " " + line1.e);
-//        }
-        
         System.out.println(getMaxOverlap(n, line));
     }
-    
 }
