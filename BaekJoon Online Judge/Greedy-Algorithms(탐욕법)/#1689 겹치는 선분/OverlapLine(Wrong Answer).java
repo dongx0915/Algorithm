@@ -33,16 +33,29 @@ public class Main {
     public static int getMaxOverlap(int n, Line[] line){
         int max = 0;
         int cnt = 1;
+        
+        Line target = line[0];
         Line now = line[0];
+        int end_range = now.e;
         
         for (int i = 1; i < n; i++) {
             Line next = line[i];
-            if(next.s < now.e) cnt++;
+
+            if(next.s < now.e && next.s < end_range){
+                cnt++;
+                end_range = Math.min(end_range, next.e);
+            }
             else{
                 max = Math.max(max, cnt);
-                cnt = 1;
+                end_range = next.e;
+                if(next.s < target.e) cnt = 2; //타겟에 포함되면 2 
+                else{
+                    cnt = 1;
+                    target = next;
+                }                  //아니면 1
             }
-            now = line[i];
+            //타겟에 포함되지 않는 경우 (타겟 갱신)
+            now = next;
         }
         
         return Math.max(max, cnt);
