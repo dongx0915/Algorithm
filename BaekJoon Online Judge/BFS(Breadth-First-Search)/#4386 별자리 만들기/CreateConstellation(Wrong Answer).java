@@ -64,7 +64,7 @@ public class Main {
                     q.add(i);
                     cnt_q.add(cnt + 1);
                     visited[i] = true;
-                    cost += getDistance(star[now], star[i]);
+                    cost += getDistance(star[now], star[i]);                //이 부분이 문제인 듯함
                     //System.out.println("Cost = " + cost);
                 }
             }
