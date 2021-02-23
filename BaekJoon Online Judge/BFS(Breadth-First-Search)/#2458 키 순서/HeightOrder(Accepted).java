@@ -21,8 +21,8 @@ public class Main {
                 //student[i][root]가 -1이라는 것은 이미 이 노드를 탐색했다는 뜻이므로 add하지 않는다. (중복으로 add하는 경우 방지 - 메모리 초과남)
                 if(student[now][i] == 1 && student[i][root] != -1){
                     q.add(i);
-                    student[i][root] = -1;
-                    student[root][i] = 1;
+                    student[i][root] = -1; //도달하는 노드의 사람보다 root가 작다는 것을 표시
+                    student[root][i] = 1;  // *도달하는 노드가 자신(root)보다 크다는 것도 표시해줘야함*
                 }
             }
         }
