@@ -17,6 +17,8 @@ public class Main {
             int now = q.poll();
             
             for (int i = 1; i < std + 1; i++) {
+                //현재(now) 사람보다 큰 사람들을 add한다.
+                //student[i][root]가 -1이라는 것은 이미 이 노드를 탐색했다는 뜻이므로 add하지 않는다. (중복으로 add하는 경우 방지 - 메모리 초과남)
                 if(student[now][i] == 1 && student[i][root] != -1){
                     q.add(i);
                     student[i][root] = -1;
