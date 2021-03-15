@@ -75,20 +75,18 @@ public class Main {
         System.out.println(dis[end].distance);
         
         print_Path(start, end, result);
-        System.out.println(result.length());
+        System.out.println(result.toString().split(" ").length);
         System.out.println(result);
     }
-    
-    public static void print_Path(int start, int end, StringJoiner result){   //그냥 출력으로 했을떄랑 결과가 다름
+    //경로를 출력하는 메소드(역추적)
+    //dis[i]에 어느 노드에서 왔는지를 저장해둔다(prev)
+    //경로가 1 > 4 > 2 > 3이면 dis[3] = 2, dis[2] = 4, dis[4] = 1 이런식으로 저장하고 end부터 거꾸로 올라가며 경로를 추적한다.(재귀)
+    public static void print_Path(int start, int end, StringJoiner result){
         if(dis[end].prev == -1) return;
-        if(dis[end].prev == start){
-            result.add(start + "");
-            return;
-        }
+        if(dis[end].prev == start) result.add(start + "");
         
         print_Path(start, dis[end].prev, result);
         result.add(end + "");
-        //System.out.print(end + " ");
     }
     
     public static void print(ArrayList<Integer> list){
@@ -124,9 +122,7 @@ public class Main {
         
         int start = sc.nextInt();
         int end = sc.nextInt();
-        //System.out.println(dis[start].distance);
+
         dijkstra(start, end);
-        
     }
-    
 }
