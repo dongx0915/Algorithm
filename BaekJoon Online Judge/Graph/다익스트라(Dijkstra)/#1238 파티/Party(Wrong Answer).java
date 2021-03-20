@@ -80,7 +80,7 @@ public class Main {
             Arrays.fill(adj[i], INF);
         }
         
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < m; i++) {  //m을 8로 써놔서 
             int n1 = sc.nextInt();
             int n2 = sc.nextInt();
             
