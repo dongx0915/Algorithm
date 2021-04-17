@@ -5,27 +5,27 @@
  */
 package Dijkstra.Baekjoon1446;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
 /**
  *
  * @author Donghyeon <20183188>
  */
-class Node implements Comparable<Node>{
-    int index;
+class ShortCut implements Comparable<ShortCut>{
+    int start;
+    int end;
     int distance;
 
-    public Node(int index, int distance) {
-        this.index = index;
+    public ShortCut(int start, int end, int distance) {
+        this.start = start;
+        this.end = end;
         this.distance = distance;
     }
     
     @Override
-    public int compareTo(Node o){
-        return this.distance - o.distance;
+    public int compareTo(ShortCut o){
+        return this.start - o.start;
     }
 }
 
@@ -34,59 +34,65 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    public static final int INF = Integer.MAX_VALUE;
+    public static int[] moved_distance;     //해당 위치까지의 최단 거리를 저장하는 배열
+    public static ShortCut[] shortcut;
     
-    static int[] dis;
-    static int[][] shortcut;
-    static final int INF = 100000001;
-    
-    public static int dijkstra(int start, int end){
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        dis[start] = 0;
-        pq.offer(new Node(start, dis[start]));
+    public static int dijkstra(int start, int end, int n){
+        moved_distance[start] = 0;
         
-        while(!pq.isEmpty()){
-            Node cur = pq.poll();
-            
-            if(cur.distance > dis[cur.index]) continue;
-            
-            for (int i = 0; i < 10000; i++) {
-                if(shortcut[cur.index][i] != INF){
-                    if(dis[i] > dis[cur.index] + shortcut[cur.index][i]){
-                        dis[i] = dis[cur.index] + shortcut[cur.index][i];
-                        pq.offer(new Node(i, dis[i]));
+        int now_shortcut = 0;   //지름길 인덱스
+        int now_distance = 0;   //현재까지 온 거리
+        
+        while(now_distance < end){
+            //System.out.println("돌고있나여");
+            while(now_shortcut < n){
+                //아직 방문하지 않은 지름길 중 가장 먼저나오는 지름길이 현재 위치와 다르면 break
+                if(shortcut[now_shortcut].start != now_distance) break;
+                
+                //지름길이 고속도로의 범위 안에 있는 경우(역주행이 불가능하므로 범위를 벗어나면 탈 수 없음)
+                if(shortcut[now_shortcut].end <= end){
+                    /*
+                    * 지름길의 도착 지점까지의 최단 거리보다 (현재 위치(now_distance)까지의 최단 거리 + 지름길)의 경우가 
+                    * 더 짧으면 갱신해줌
+                    */
+                    
+                    int use_shortcut = moved_distance[now_distance] + shortcut[now_shortcut].distance; //지름길을 타는 경우의 거리
+                    if(moved_distance[shortcut[now_shortcut].end] > use_shortcut){
+                        moved_distance[shortcut[now_shortcut].end] = use_shortcut;
                     }
                 }
+                now_shortcut++;
             }
+            
+            //현재 위치에서 바로 다음 위치로 가는 경우가 더 최단 거리라면 다음 위치의 최단 거리 값을 갱신
+            if (moved_distance[now_distance] + 1 < moved_distance[now_distance + 1]) {
+                moved_distance[now_distance + 1] = moved_distance[now_distance] + 1;
+            }
+            
+            now_distance++;
         }
         
-        return dis[end];
+        return moved_distance[end];
     }
-    
+        
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();  //지름길 개수
-        int d = sc.nextInt();  //고속도로 길이
-        int start, end, short_d;
+        int n = sc.nextInt();       //지름길의 개수
+        int d = sc.nextInt();       //고속도로의 길이(도착 지점)
         
-        //ArrayList<Node> shortcut[] = new ArrayList[10000];
-        shortcut = new int[10000][10000];
-        dis = new int[10000];
-        
-        for (int i = 0; i < 10000; i++) {
-            Arrays.fill(shortcut[i], INF);
-        }
-        Arrays.fill(dis, INF);
+        moved_distance = new int[d + 1];
+        shortcut = new ShortCut[n];
         
         for (int i = 0; i < n; i++) {
-            start = sc.nextInt();
-            end = sc.nextInt();
-            short_d = sc.nextInt();
-            
-            shortcut[start][end] = Math.min(shortcut[start][end], short_d);
+            shortcut[i] = new ShortCut(sc.nextInt(), sc.nextInt(), sc.nextInt());
         }
         
-        System.out.println(dijkstra(0, d));
+        Arrays.sort(shortcut);
+        Arrays.fill(moved_distance, INF);
+        
+        System.out.println(dijkstra(0, d, n));
     }
     
 }
