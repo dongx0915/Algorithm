@@ -48,6 +48,7 @@ public class Main {
             //System.out.println("돌고있나여");
             while(now_shortcut < n){
                 //아직 방문하지 않은 지름길 중 가장 먼저나오는 지름길이 현재 위치와 다르면 break
+                //지름길의 시작점과 현재 위치가 다른 경우에 멈추므로 시작점이 같은 지름길을 모두 체크할 수 있음
                 if(shortcut[now_shortcut].start != now_distance) break;
                 
                 //지름길이 고속도로의 범위 안에 있는 경우(역주행이 불가능하므로 범위를 벗어나면 탈 수 없음)
