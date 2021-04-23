@@ -37,8 +37,8 @@ class Way implements Comparable<Way>{
     
     @Override
     public int compareTo(Way o){
-        if(this.dis_ - o.dis_ < 0) return 1;
-        else return -1;
+        if(this.dis_ - o.dis_ < 0) return -1;
+        else return 1;
     }
 }
 
