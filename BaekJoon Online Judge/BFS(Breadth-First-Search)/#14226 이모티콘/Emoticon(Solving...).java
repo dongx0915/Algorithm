@@ -58,8 +58,9 @@ public class Main {
             }
             
             //입력된 이모티콘 하나 삭제
-            if (cur.screen_ != 0) {
+            if (cur.screen_ != 0 && visited[cur.clipboard_][cur.screent_ - 1]) {
                 q.add(new Emoticon(cur.clipboard_, cur.screen_ - 1, cur.time_ + 1));
+                visited[cur.clipboard_][cur.screen_ - 1] = true;  
             }
         }
         
