@@ -6,7 +6,7 @@
 package MST.BOJ14950;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
@@ -28,6 +28,15 @@ class Edge implements Comparable<Edge>{
     @Override
     public int compareTo(Edge e){
         return this.cost_ - e.cost_;
+    }
+}
+
+class Node{
+    int index_;
+    ArrayList<Edge> edge_ = new ArrayList<>();
+
+    public Node(int index_) {
+        this.index_ = index_;
     }
 }
 
@@ -59,21 +68,40 @@ public class Main {
         return x == y;
     }
     
-    public static int getConquestCosts(int n, int m, int t, Edge[] edge, int[] parent){
+    public static void printParent(int[] parent){
+        System.out.print("parent : ");
+        for (int i : parent) {
+            System.out.print(i + " ");
+        }
+        System.out.println("");
+    }
+    
+    public static int getConquestCosts(Node[] node, int[] parent, int n, int t){
         //1번 정점부터 시작해야함
-        int cost = -t;
+        int cost = 0;
+        int connect_cnt = 1;
         
-        for (Edge e : edge) {
-            if(!isSameGraph(e.node_[0], e.node_[1], parent)){
-                unionParent(e.node_[0], e.node_[1], parent);
-                cost += e.cost_ + t;
-                t += t;
-                System.out.println(e.node_[0] + " " + e.node_[1] + " 비용 : " + cost);
-            }
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        pq.addAll(node[1].edge_);
+        
+        while(!pq.isEmpty()){
+            Edge next = pq.poll();
+            if(isSameGraph(next.node_[0], next.node_[1], parent)) continue;
+            int n1 = getParent(parent, next.node_[0]);
+            int n2 = getParent(parent, next.node_[1]);
+            int next_node = parent[n1] == 1 ? n2 : n1;
+            
+            //System.out.println("다음 노드 : " + next_node);
+            unionParent(next.node_[0], next.node_[1], parent);
+            cost += next.cost_ + (t * (connect_cnt - 1));
+            connect_cnt++;
+            
+            pq.addAll(node[next_node].edge_);
         }
         
         return cost;
     }
+    
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
@@ -83,15 +111,19 @@ public class Main {
         int t = sc.nextInt();       //증가하는 비용
         
         int[] parent = new int[n + 1];
-        Edge[] edge = new Edge[m];
-
-        for (int i = 1; i < n + 1; i++) parent[i] = i;
-        for (int i = 0; i < m; i++){
-            edge[i] = new Edge(sc.nextInt(), sc.nextInt(), sc.nextInt());
-        }
-        Arrays.sort(edge);
+        Node[] node = new Node[n + 1];
         
-        System.out.println(getConquestCosts(n,m,t,edge,parent));
+        for (int i = 1; i < n + 1; i++){
+            parent[i] = i;
+            node[i] = new Node(i);
+        }
+        
+        for (int i = 0; i < m; i++){
+            Edge input = new Edge(sc.nextInt(), sc.nextInt(), sc.nextInt());
+            node[input.node_[0]].edge_.add(input);
+            node[input.node_[1]].edge_.add(input);
+        }
+        
+        System.out.println(getConquestCosts(node, parent, n, t));
     }
-    
 }
