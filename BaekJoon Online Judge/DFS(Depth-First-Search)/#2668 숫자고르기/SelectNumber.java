@@ -41,8 +41,8 @@ public class Main {
         if(!nodes[node].goChild_){
             nodes[node].goChild_ = true;
             dfs(first, nodes[node].child_, result);
-            nodes[node].goChild_ = false;
-        }
+            nodes[node].goChild_ = false;       <-- 중요 ! goChild(자식 방문 체크 변수) 원래대로 돌려놓기(하나의 경로를 탐색하고 난 후엔 변수를 원상태로(다른 경로 탐색을 위해))
+        }   
     }
     
     public static void getSequence(int n){
