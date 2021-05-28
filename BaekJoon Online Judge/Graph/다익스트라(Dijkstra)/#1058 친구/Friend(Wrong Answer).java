@@ -9,10 +9,6 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
-/**
- *
- * @author Donghyeon <20183188>
- */
 class Node implements Comparable<Node>{
     int index_;
     int dis_;
@@ -29,10 +25,6 @@ class Node implements Comparable<Node>{
 }
 
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
     public static final int INF = 100;
     public static int[][] adj;
     public static int[] dis;
@@ -62,7 +54,7 @@ public class Main {
         
         int friend_cnt = 0;
         
-        for (int i = 0; i < n; i++) if(root != i && 1 <= dis[i] && dis[i] != INF) friend_cnt++;
+        for (int i = 0; i < n; i++) if(root != i && dis[i] != INF && dis[i] <= 2) friend_cnt++;
         return friend_cnt;
     }
     
@@ -98,5 +90,4 @@ public class Main {
         
         System.out.println(getTwoFriends(n));
     }
-    
 }
