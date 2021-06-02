@@ -79,7 +79,7 @@ public class Main {
             
             System.out.printf("remove [%d,%d] = %d\n", next.s_, next.e_, next.p_);
             
-            selected.remove(next);
+            selected.remove(selected.size() - 1);
             visited[i] = false;
             
         }
