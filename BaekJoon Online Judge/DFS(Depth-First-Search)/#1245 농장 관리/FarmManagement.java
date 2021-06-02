@@ -1,16 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package DFS.BOJ1245;
-
 import java.util.Scanner;
 
-/**
- *
- * @author Donghyeon <20183188>
- */
 class Pair{
     int x_;
     int y_;
@@ -31,29 +20,10 @@ public class Main {
     public static boolean[][] visited;
     public static int[] dx = {-1, -1, 0, 1, 1, 1, 0,-1};
     public static int[] dy = { 0, -1,-1,-1, 0, 1, 1, 1};
+    public static boolean isPeak;
     
-    public static void printFarm(){
-        for (int[] is : farm) {
-            for (int i : is) {
-                System.out.printf("%3d", i);
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-        
-        for (boolean[] bs : visited) {
-            for (boolean b : bs) {
-                if(b) System.out.print("T ");
-                else System.out.print("F ");
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-    }
-    
-    public static int isMountainPeak(Pair root, int cur, boolean isPeak){
+    public static int isMountainPeak(Pair root, int cur){
         visited[root.x_][root.y_] = true;
-        System.out.printf("now [%d,%d], cur = %d\n", root.x_, root.y_, cur);
         
         for (int i = 0; i < 8; i++) {
             Pair next = new Pair(root.x_ + dx[i], root.y_ + dy[i]);
@@ -62,12 +32,9 @@ public class Main {
             if(farm[next.x_][next.y_] > cur) isPeak = false;
             if(visited[next.x_][next.y_]) continue;
             
-            if(farm[next.x_][next.y_] == cur) isMountainPeak(next, cur, isPeak);
+            if(farm[next.x_][next.y_] == cur) isMountainPeak(next, cur);
         }
-        
-        
-        System.out.println(isPeak);
-        
+
         return isPeak ? 1 : 0;
     }
         
@@ -77,12 +44,9 @@ public class Main {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 if(farm[i][j] > 0 && !visited[i][j]){
-                    //System.out.printf("root [%d,%d], cur = %d\n", i,j, farm[i][j]);
-                    int dfs = isMountainPeak(new Pair(i,j), farm[i][j], true);
+                    isPeak = true;
+                    int dfs = isMountainPeak(new Pair(i,j), farm[i][j]);
                     peak += dfs;
-                    System.out.println(dfs);
-                    //System.out.println("");
-                    printFarm();
                 }
             }
         }
@@ -105,5 +69,4 @@ public class Main {
         
         System.out.println(getMountainPeak());
     }
-    
 }
