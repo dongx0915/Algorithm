@@ -48,4 +48,5 @@ Print the resulting image after applying the operation in the same format as the
  - dfs로 풀면 시간 초과가 난다.(dfs가 bfs보다 느리긴하지만 다른 사람들은 dfs로 풀어도 초과가 나지 않음..)
    - dfs로도 시간 초과가 나지 않는 풀이가 있었다. 오히려 시간이 더 빨랐음
    - 아마 기존의 내 방식에선 Pair next = new Pair(..)로 객체를 계속 생성하는 방식에서 시간 초과가 난 듯하다.
+     - 시간이 더 걸리긴 했지만(2배 차이) 시간 초과가 나지는 않았다.
  - System.out.println() 과 bw.write()의 속도차이가 있을 줄 알았는데 오히려 System.out.println()이 더 빠르게 나왔다
