@@ -42,3 +42,8 @@ The colors are limited to a single digit from 0 to 9.
 
 ## 출력
 Print the resulting image after applying the operation in the same format as the input.
+
+## 풀이 
+ - 일반적인 완전탐색 문제
+ - dfs로 풀면 시간 초과가 난다.(dfs가 bfs보다 느리긴하지만 다른 사람들은 dfs로 풀어도 초과가 나지 않음..)
+ - System.out.println() 과 bw.write()의 속도차이가 있을 줄 알았는데 오히려 System.out.println()이 더 빠르게 나왔다
