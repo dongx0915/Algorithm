@@ -50,3 +50,6 @@ Print the resulting image after applying the operation in the same format as the
    - 아마 기존의 내 방식에선 Pair next = new Pair(..)로 객체를 계속 생성하는 방식에서 시간 초과가 난 듯하다.
      - 시간이 더 걸리긴 했지만(2배 차이) 시간 초과가 나지는 않았다.
  - System.out.println() 과 bw.write()의 속도차이가 있을 줄 알았는데 오히려 System.out.println()이 더 빠르게 나왔다
+ - 자바로는 시간 초과가 났던 풀이가 c로는 통과가 된다.
+ - for 구문 용 변수 i에 메모리 할당이 진행되고 이로 인해 gc 타임에 영향을 주기는 한다. (하지만 시간 복잡도에는 영향이 없으므로 이러한 경우 때문에 시간 초과가 나면 문제나 플랫폼 결함이라고 함)
+
