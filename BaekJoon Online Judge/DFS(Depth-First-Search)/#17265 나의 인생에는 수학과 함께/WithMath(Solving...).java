@@ -25,11 +25,15 @@ public class Main {
         return !(x < 0 || y < 0 || x >= N || y >= N);
     }
     public static int caclExp(Queue<Character> exp){
-        int result = 0;
+        int result = exp.poll();
         
         while(exp.isEmpty()){
             char cur = exp.poll();
-            
+            if('1' <= cur && cur <= '9'){ //cur이 숫자인 경우
+            }   
+            else{                         //연산자인 경우
+                
+            }
         }
         
         return result;
