@@ -26,13 +26,23 @@ public class Main {
     }
     public static int caclExp(Queue<Character> exp){
         int result = exp.poll();
+        char oper = ' ';
         
         while(exp.isEmpty()){
             char cur = exp.poll();
+            
             if('1' <= cur && cur <= '9'){ //cur이 숫자인 경우
+                switch(oper){
+                    case '+' :
+                        break;
+                    case '-' :
+                        break;
+                    case '*' :
+                        break;
+                }
             }   
             else{                         //연산자인 경우
-                
+                oper = cur;
             }
         }
         
