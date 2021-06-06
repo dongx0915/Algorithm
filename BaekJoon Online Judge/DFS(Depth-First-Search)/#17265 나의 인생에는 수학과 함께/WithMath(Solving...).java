@@ -34,10 +34,13 @@ public class Main {
             if('1' <= cur && cur <= '9'){ //cur이 숫자인 경우
                 switch(oper){
                     case '+' :
+                        result += cur + '0';
                         break;
                     case '-' :
+                        result -= cur + '0';
                         break;
                     case '*' :
+                        result *= cur + '0';
                         break;
                 }
             }   
