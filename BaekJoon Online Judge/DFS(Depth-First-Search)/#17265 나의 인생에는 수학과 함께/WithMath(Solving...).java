@@ -5,7 +5,7 @@
  */
 package DFS.BOJ17265;
 
-import java.util.Queue;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -24,38 +24,43 @@ public class Main {
     public static boolean isWithinRange(int x, int y){
         return !(x < 0 || y < 0 || x >= N || y >= N);
     }
-    public static int caclExp(Queue<Character> exp){
-        int result = exp.poll();
-        char oper = ' ';
+    public static int calcExp(ArrayList<Character> exp){
+        int index = 0;
+        int result = exp.get(index++) -'0';
+        //System.out.println("size = " + exp.size());
         
-        while(exp.isEmpty()){
-            char cur = exp.poll();
+        while(index < exp.size()){
             
-            if('1' <= cur && cur <= '9'){ //cur이 숫자인 경우
-                switch(oper){
-                    case '+' :
-                        result += cur + '0';
-                        break;
-                    case '-' :
-                        result -= cur + '0';
-                        break;
-                    case '*' :
-                        result *= cur + '0';
-                        break;
-                }
-            }   
-            else{                         //연산자인 경우
-                oper = cur;
+            char oper = exp.get(index++);
+            int cur = (int)(exp.get(index++) - '0');
+            
+            //System.out.println("cur = " + cur + " oper = " + oper);
+            
+            switch (oper) {
+                case '+':
+                    result += cur;
+                    break;
+                case '-':
+                    result -= cur;
+                    break;
+                case '*':
+                    result *= cur;
+                    break;
             }
+            //System.out.println("result = " + result);
         }
         
         return result;
     }
-    public static void calcMinMax(int x, int y, Queue<Character> exp){
-        exp.offer(map[x].charAt(y));
-        
+    
+    public static void calcMinMax(int x, int y, ArrayList<Character> exp){
+        exp.add(map[x].charAt(y));
+
         if(x == N - 1 && y == N - 1){ //끝 지점에 도착하면 Queue에 있는 식을 계산
-            
+            int result = calcExp(exp);
+            max = Math.max(max, result);
+            min = Math.min(min, result);
+            exp.remove(exp.size() - 1);
             return;
         }
         
@@ -73,7 +78,7 @@ public class Main {
             visited[nextX][nextY] = false;
         }
         
-        exp.poll();
+        exp.remove(exp.size() - 1);
     }
     
     public static void main(String[] args) {
@@ -87,6 +92,8 @@ public class Main {
             map[i] = sc.useDelimiter("\n").next().replaceAll(" ", "");
         }
         
+        calcMinMax(0,0, new ArrayList<>());
+        System.out.println(max + " " + min);
     }
     
 }
