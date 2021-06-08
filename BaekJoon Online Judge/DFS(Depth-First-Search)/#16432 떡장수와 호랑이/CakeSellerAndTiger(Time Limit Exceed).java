@@ -21,13 +21,16 @@ public class Main {
     public static ArrayList<Integer>[] cake;
     public static int N;
     public static ArrayList<Integer> stolenCake = new ArrayList<>();
+    public static boolean[][] visited;
     
     public static boolean dfs(int day, int prev_cake){
         if(day == N + 1) return true;
         
         for (Integer next_cake : cake[day]) {
             if(next_cake == prev_cake) continue;
+            if(visited[day][next_cake]) continue;
             
+            visited[day][next_cake] = true;
             stolenCake.add(next_cake);
             
             if(dfs(day + 1, next_cake)) return true;
@@ -43,6 +46,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         N = sc.nextInt();
         cake = new ArrayList[N + 1]; 
+        visited = new boolean[N + 1][10];
         
         //cake[날짜][떡 종류] 
         for (int i = 1; i < N + 1; i++) {
@@ -52,7 +56,7 @@ public class Main {
             for (int j = 0; j < cake_cnt; j++) cake[i].add(sc.nextInt());
         }
         
-        if(dfs(1, 0)) for (Integer cake : stolenCake) System.out.println(cake);
+        if(dfs(1, 0)) stolenCake.forEach(c -> { System.out.println(c);});
         else System.out.println("-1");
     }
     
