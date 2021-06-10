@@ -57,9 +57,6 @@ public class Main {
         visited[robot2] = true;
         setDisDfs(robot2, 0, R2);
         visited[robot2] = false;
-        
-//        printDis(R1);
-//        printDis(R2);
     }
     
     public static int getMinDistance(int robot1, int robot2){
@@ -70,12 +67,6 @@ public class Main {
                 min = Math.min(min, robot_dis[R1][i] + robot_dis[R2][child.node_]);
             }
         }
-        
-//        for (int i = 1; i < N + 1; i++) {
-//            for (Edge child : graph[i]) {
-//                min = Math.min(min, robot_dis[R2][i] + robot_dis[R1][child.node_]);
-//            }
-//        }
         
         return min;
     }
