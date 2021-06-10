@@ -71,14 +71,6 @@ public class Main {
         return min;
     }
     
-    public static void printDis(int robot){
-        System.out.println((robot+1) + " 로봇 : ");
-        for (int is : robot_dis[robot]) {
-            System.out.print(is + " ");
-        }
-        System.out.println("");
-    }
-    
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
