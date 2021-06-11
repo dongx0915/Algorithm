@@ -14,3 +14,16 @@
 
 ### Greedy
 - [ ] 2347 : 저울 
+
+
+## 문제 풀면서 알게된 사실
+ # ConcurrentModificationException
+ 
+```java
+  for (Integer next : beads[root].lightbeads_) {
+      beads[next].heavybeads_.addAll(beads[root].lightbeads_);
+      dfs(next);
+      beads[root].lightbeads_.addAll(beads[next].heavybeads_);   <- 반복문의 기준인 beads[root].lightbeads_의 원소가 바뀌게 된다.
+                                                                     따라서, Enhanced for 문의 반복 횟수가 계속 바뀌게 되므로 ConcurrentModificationException이 발생한다.
+  }                                                                     
+```
