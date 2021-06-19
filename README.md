@@ -14,7 +14,7 @@
 
 ### Greedy
 - [ ] 2347 : 저울 
-
+- [ ] 12904 : A와 B
 
 ## 문제 풀면서 알게된 사실
  # ConcurrentModificationException
