@@ -26,7 +26,7 @@ public class Main {
         
         int result = d[x] = 3 * dp(x-2);
         
-        for (int i = 3; i <= x ; i++) if(i % 2 == 0) result += 2 * dp(x - i);
+        for (int i = 4; i <= x ; i+=2) result += 2 * dp(x - i);// n=4부터는 새로운 도형이 추가된다. 하지만 n이 4,6,8,10...일때 도형의 모양이 모두 다르기 때문에 각각 dp[i]에 더해준다.
         return d[x] = result;
     }
     
