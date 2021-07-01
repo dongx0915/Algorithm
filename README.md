@@ -16,6 +16,10 @@
 - [ ] 2347 : 저울 
 - [ ] 12904 : A와 B
 
+### DP
+- [ ] 2133 : 타일 채우기
+
+
 ## 문제 풀면서 알게된 사실
  # ConcurrentModificationException
  
