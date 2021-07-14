@@ -25,9 +25,6 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         int n = new Scanner(System.in).nextInt();
-        if(n == 0) System.out.println("1");
-        else System.out.println((n / 5) + (n / 25) + (n / 125));
-        
+        System.out.println((n / 5) + (n / 25) + (n / 125));
     }
-    
 }
