@@ -3,29 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Baekjoon;
+package BFS.BOJ5014;
+import java.io.*;
+import java.util.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-
-/**
- *
- * @author Donghyeon <20183188>
- */
-public class StartLink {
-
-    /**
-     * @param args the command line arguments
-     */
+public class Main {
     public static int floor;
     public static int cur;
     public static int goal;
     public static int up;       //up만큼 올라감
     public static int down;     //down만큼 내려감
-    //만약 U층 위, D층 아래에 해당하는 층이 없으면 엘레베이터는 움직이지 않는다.
     public static boolean[] visited;
     
     public static String getButtonClickCnt(){
@@ -42,12 +29,12 @@ public class StartLink {
             clicked = click.poll();
             
             if(now == goal) return clicked + "";
-            if(now + up <= goal && !visited[now + up]){
+            if(now + up <= floor && !visited[now + up]){
                 q.add(now + up);
                 click.add(clicked + 1);
                 visited[now + up] = true;
             }
-            if(now - down >= 0 && !visited[now - down]){
+            if(now - down > 0 && !visited[now - down]){
                 q.add(now - down);
                 click.add(clicked + 1);
                 visited[now - down] = true;
@@ -58,7 +45,6 @@ public class StartLink {
     
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
-        
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String[] input = br.readLine().split(" ");
         
@@ -71,5 +57,4 @@ public class StartLink {
         
         System.out.println(getButtonClickCnt());
     }
-    
 }
