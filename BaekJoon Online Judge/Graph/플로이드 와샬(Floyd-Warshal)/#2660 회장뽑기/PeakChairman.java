@@ -1,39 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Floyd.BOJ2660;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringJoiner;
 import java.util.StringTokenizer;
 
-/**
- *
- * @author Donghyeon <20183188>
- */
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
     public static final int INF = 1000;
     public static int[][] friends;
-    
-    public static void print(){
-        for (int[] friend : friends) {
-            for (int i : friend) {
-                System.out.print(i + " ");
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-    }
+
     public static void floyd(int n){
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -59,7 +36,7 @@ public class Main {
             }
         }
         
-        PriorityQueue<Rank> pq = new PriorityQueue<>();
+        Queue<Rank> q = new LinkedList<>();
         StringJoiner result = new StringJoiner(" ");
         
         
@@ -70,21 +47,25 @@ public class Main {
                 if(friends[i][j] == INF) continue;
                 r.score_ = Math.max(r.score_, friends[i][j]);
             }
-            pq.offer(r);
-        }
-
-        Rank prev = pq.isEmpty() ? null : pq.peek();
-        
-        System.out.print(prev.score_ + " ");
-        
-        while(!pq.isEmpty()){
-            if(prev.score_ != pq.peek().score_) break;
             
-            prev = pq.poll();
-            result.add(prev.index_ + "");
+            if(q.isEmpty()){
+                q.offer(r);
+                continue;
+            }
+            
+            while(!q.isEmpty()){
+                if(q.peek().score_ > r.score_) while(!q.isEmpty() && q.peek().score_ > r.score_) q.poll();
+                if(q.isEmpty() || q.peek().score_ == r.score_) {
+                    q.offer(r);
+                    break;
+                }
+                else break;
+            }
         }
         
-        System.out.println(result.toString().replaceAll(" ","").length());
+        System.out.println(q.peek().score_ + " " + q.size());
+        while(!q.isEmpty()) result.add(q.poll().index_ + "");
+        
         return result.toString();
     }
     
@@ -109,8 +90,6 @@ public class Main {
         }
         
         floyd(n);
-        //print();
         System.out.println(getCandidate(n));
     }
-    
 }
