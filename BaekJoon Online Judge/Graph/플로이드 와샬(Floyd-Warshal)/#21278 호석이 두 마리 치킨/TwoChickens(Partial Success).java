@@ -25,16 +25,6 @@ public class Main {
     public static int[] time;
     public static int[][] dis;
     
-    public static void print(){
-        for (int[] di : dis) {
-            for (int i : di) {
-                System.out.print(i + " ");
-            }
-            System.out.println("");
-        }
-        System.out.println("");
-    }
-    
     public static void floyd(){
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -48,7 +38,7 @@ public class Main {
     }
     
     public static String getPosition(){
-        int[] ch = {0, 1};
+        int[] ch = {-1, -1};
         int minDis = Integer.MAX_VALUE;
         int sum = 0;
 
@@ -60,15 +50,29 @@ public class Main {
                     if(dis[k][i] == INF && dis[k][j] == INF) continue;
                     sum += Math.min(dis[k][i], dis[k][j]) * 2;
                 }
-                if (minDis > sum) {
-                    //작은 번호가 같은 경우(큰 번호가 더 작은 것을 출력)
+                //System.out.printf("[%d,%d] = %d\n", i+1, j+1, sum);
+                if(minDis > sum){
                     minDis = sum;
-                    if(ch[0] == i) ch[1] = ch[1] > j ? j : ch[1];
-                    else {
+                    ch[0] = i;
+                    ch[1] = j;
+                }
+                else if (minDis == sum) {
+                    //작은 번호가 같은 경우(큰 번호가 더 작은 것을 출력)
+                    //System.out.printf("최소 [%d,%d] = %d\n", i+1, j+1, sum);
+                    if(ch[0] == -1 && ch[1] == -1){
                         ch[0] = i;
                         ch[1] = j;
                     }
+                    else if(ch[0] == i) ch[1] = ch[1] > j ? j : ch[1];
+                    else {
+                        if(ch[0] > i) {
+                           ch[0] = i;
+                           ch[1] = j;
+                        }
+                    }
                 }
+                
+                sum=0;
             }
         }
         
