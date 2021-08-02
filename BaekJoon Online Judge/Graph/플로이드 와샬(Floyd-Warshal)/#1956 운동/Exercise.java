@@ -1,46 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Floyd.BOJ1956;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
-/**
- *
- * @author Donghyeon <20183188>
- */
 public class Main {
+    public static final long INF = (400 * 399 * 10000) + 1; // V * E * dis
+    public static int V,E;
+    public static long[][] road;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static final int INF = (400 * 399 * 10000) + 1; // V * E * dis
-    public static int[][] road;
-    public static int[] parent;
-    
-    public static int getParent(int x, int[] parent){
-        if(parent[x] == x) return x;
-        return parent[x] = getParent(parent[x], parent);
-    }
-    
-    public static void unionParent(int x, int y, int[] parent){
-        //x -> y 방향으로 합침
-        parent[x] = getParent(y, parent);
-    }
-    
-    public static boolean isCylce(int x, int y, int[] parent){
-        x = getParent(x, parent);
-        y = getParent(y, parent);
-        return x == y;
-    }
-    
-    public static void floyd(int V){
+    public static void floyd(){
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < V; j++) {
                 for (int k = 0; k < V; k++) {
@@ -51,39 +22,62 @@ public class Main {
         }
     }
     
+    public static long bfs(int root){
+        Queue<Integer> q = new LinkedList<>();
+        Queue<Long> dis_q = new LinkedList<>();
+        boolean[] visited = new boolean[V];
+        long min = Integer.MAX_VALUE;
+        
+        q.offer(root);
+        dis_q.offer((long)0);
+        visited[root] = true;
+        
+        while(!q.isEmpty()){
+            int cur = q.poll();
+            long cur_dis = dis_q.poll();
+            
+            for (int i = 0; i < V; i++) {
+                //연결되지 않았거나 이미 방문헀으면 continue;
+                if(road[cur][i] == INF) continue;
+                if(visited[i]){
+                    if(i == root) min = Math.min(min, (cur_dis + road[cur][i]));
+                    else continue;
+                }
+                
+                q.offer(i);
+                dis_q.offer(cur_dis + road[cur][i]);
+                visited[i] = true;
+            }
+        }
+        
+        return min;
+    }
+    
+    public static long getRoutine(){
+        long min = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < V; i++) min = Math.min(min, bfs(i));
+        return min == Integer.MAX_VALUE ? -1 : min;
+    }
+    
     public static void main(String[] args) throws IOException{
         // TODO code application logic here
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         
-        int V = Integer.parseInt(st.nextToken());
-        int E = Integer.parseInt(st.nextToken());
-        road = new int[V][V];
-        parent = new int[V];
+        V = Integer.parseInt(st.nextToken());
+        E = Integer.parseInt(st.nextToken());
+        road = new long[V][V];
         
-        
-        for (int i = 0; i < V; i++) {
-            Arrays.fill(road[i], INF);
-            parent[i] = i;
-        }
-        
-                for (int i : parent) {
-            System.out.print(i + " ");
-        }
-        System.out.println("");
+        for (int i = 0; i < V; i++) Arrays.fill(road[i], INF);
         for (int i = 0; i < E; i++) {
             st = new StringTokenizer(br.readLine());
             int n1 = Integer.parseInt(st.nextToken()) - 1;
             int n2 = Integer.parseInt(st.nextToken()) - 1;
-            road[n1][n2] =  Integer.parseInt(st.nextToken());
-            
-            unionParent(n1, n2, parent);
+            road[n1][n2] = Integer.parseInt(st.nextToken());
         }
-        
-        for (int i : parent) {
-            System.out.print(i + " ");
-        }
-        System.out.println("");
+
+        floyd();
+        System.out.println(getRoutine());
     }
-    
 }
