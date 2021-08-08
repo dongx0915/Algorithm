@@ -70,8 +70,8 @@ public class Main {
             int n2 = Integer.parseInt(st.nextToken()) - 1;
             int d = Integer.parseInt(st.nextToken());
             
-            if(d == 0) road[n1][n2] = 1;
-            else if(d == 1) road[n1][n2] = road[n2][n1] = 1;
+            if(d == 0) road[n1][n2] = 0;                       //road에 바꿔야 할 도로의 개수를 바로 저장해야하므로 1로 저장하면 안될 듯
+            else if(d == 1) road[n1][n2] = road[n2][n1] = 0;
         }
         
         print();
