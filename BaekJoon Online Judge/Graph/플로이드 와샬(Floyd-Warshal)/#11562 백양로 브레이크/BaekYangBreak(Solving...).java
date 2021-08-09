@@ -29,11 +29,11 @@ public class Main {
             for (int j = 0; j < N; j++) {
                 for (int k = 0; k < N; k++) {
                     if(j == i || k == i || j == k) continue;
-                    int r1 = road[j][i] == INF ? 1 : 0;
-                    int r2 = road[i][k] == INF ? 1 : 0;
-                    road[j][k] = r1 + r2;
+                    //System.out.printf("[%d,%d] + [%d,%d] = %d, %d\n", j+1,i+1, i+1,k+1, road[j][i], road[i][k]);
+                    road[j][k] = Math.min(road[j][k], road[j][i] + road[i][k]); //j -> i로 갈 때 바꿔야하는 도로 수 + i -> k로 갈 때 바꿔야하는 도로 수
                 }
             }
+            //System.out.println("");
         }
     }
     
@@ -41,7 +41,7 @@ public class Main {
         for (int[] ls : road) {
             for (int l : ls) {
                 if(l == INF) System.out.print("INF ");
-                else System.out.printf("%4d", l);
+                else System.out.printf("%3d ", l);
             }
             System.out.println("");
         }
@@ -68,22 +68,25 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int n1 = Integer.parseInt(st.nextToken()) - 1;
             int n2 = Integer.parseInt(st.nextToken()) - 1;
-            int d = Integer.parseInt(st.nextToken());
+            int d = Integer.parseInt(st.nextToken()); //d가 0이면 일방통행, 1이면 양방향
             
-            if(d == 0) road[n1][n2] = 0;                       //road에 바꿔야 할 도로의 개수를 바로 저장해야하므로 1로 저장하면 안될 듯
+            //road 배열에는 n에서 m으로 갈 때 바꿔야하는 도로의 개수를 저장한다.
+            //따라서, 정방향이라면 0(도로 안바꿔도 됨), 역방향이라면 1(도로 하나 바꿔야 함)로 저장한다.
+            if(d == 0) {
+                road[n1][n2] = 0;   
+                road[n2][n1] = 1;   //역방향
+            }                       
             else if(d == 1) road[n1][n2] = road[n2][n1] = 0;
         }
         
-        print();
         floyd();
-        print();
         
         st = new StringTokenizer(br.readLine());
         int k = Integer.parseInt(st.nextToken());
         
         for (int i = 0; i < k; i++) {
             st = new StringTokenizer(br.readLine());
-            
+            System.out.println(road[Integer.parseInt(st.nextToken()) - 1][Integer.parseInt(st.nextToken()) - 1]);
         }
     }
     
