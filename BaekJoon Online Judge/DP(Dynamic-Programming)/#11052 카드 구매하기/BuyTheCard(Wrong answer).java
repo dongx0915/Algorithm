@@ -5,64 +5,44 @@
  */
 package DP.BOJ11052;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- *
- * @author Donghyeon <20183188>
- */
-class Card implements Comparable<Card>{
-    int pack_;
-    double price_;
-
-    public Card(int pack_, double price_) {
-        this.pack_ = pack_;
-        this.price_ = price_;
-    }
-    
-    //양수일 때 스왑
-    @Override
-    public int compareTo(Card c){
-        return this.price_ > c.price_ ? -1 : 1;
-    }
-}
-
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static int getMaximumPrice(int n, Card[] card){
-        int price = 0;
-        
-        for (Card c : card) {
-            if(c.pack_ > n) continue;
-            
-            price += (c.price_ * c.pack_) * (n / c.pack_);
-            n -= (n / c.pack_) * c.pack_;
-                        
-            if(n == 0) return price;
+    //d[] : 카드 n개를 사는 최대 가격
+    //p[] : 카드 팩의 가격
+    public static int[] d, p;
+    
+    public static int solution(int n){
+        for (int i = 1; i <= n; i++) {       //전체 카드 수
+            for (int j = 1; j <= i; j++) {   //구매한 카드 수
+                /* d[i] : 카드 i개를 사는 최대 가격 vs 
+                *  d[i - j] + p[j] : j개를 사고 남은 카드를 사는 최대 가격 + 카드 j개의 가격
+                */
+                //System.out.printf("d[%d] = d[%d] vs d[%d - %d] + p[%d]\n", i, i, i, j, j);
+                d[i] = Math.max(d[i], d[i - j] + p[j]);
+                //System.out.printf("d[%d] = %d\n", i, d[i]);
+            }
+            //System.out.println("");
         }
         
-        return -1;
+        return d[n];
     }
     
     public static void main(String[] args) {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        Card[] card = new Card[n];
+        d = new int[n+1];
+        p = new int[n+1];
         
-        for (int i = 0; i < n; i++) {
-            card[i] = new Card(i+1, (double)sc.nextInt() / (i + 1));
+        for (int i = 1; i <= n; i++) {
+            p[i] = sc.nextInt();
+            //System.out.print(p[i] + " ");
         }
+        //System.out.println("");
         
-        Arrays.sort(card);
-        for (Card card1 : card) {
-            System.out.printf("p[%d] = %f\n", card1.pack_, card1.price_);
-        }
-        System.out.println(getMaximumPrice(n, card));
+        System.out.println(solution(n));
+        
     }
     
 }
