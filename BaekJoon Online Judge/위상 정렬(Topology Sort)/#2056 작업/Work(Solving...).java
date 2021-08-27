@@ -17,6 +17,8 @@ import java.util.Scanner;
 class Work{
     int index_;
     int time_;
+    int endTime_ = 0;
+    
     ArrayList<Integer> preWork;
 
     public Work(int index_) {
@@ -33,30 +35,30 @@ public class Main {
     
     public static int topology(int N, Work[] work, int[] dimen){
         Queue<Work> q = new LinkedList<>();
-        int[] saveDimen = new int[N];
         
-        for (int i = 0; i < N; i++) {
-            saveDimen[i] = dimen[i];
-            if(dimen[i] == 0) q.add(work[i]);
-        }
+        for (int i = 0; i < N; i++) if(dimen[i] == 0) q.add(work[i]);
         
-        int time = 0, max_time = 0, preDimen = 0;
+        int max_time = 0;
         
         for (int i = 0; i < N; i++) {
             if(q.isEmpty()) return -1;
+            
             Work now = q.poll();
+            System.out.print((now.index_+1) + " ");
             
-            if(preDimen != saveDimen[now.index_]) {     //차수가 달라지면 시간 최대값을 더해주고 초기화
-                max_time += time;                       //차수가 달라진다는 것은 선행 작업 수가 다르다는 뜻
-                time = now.time_;                       //즉, 차수가 같다는 것은 동시에 시작할 수 있다는 뜻임
+            //선행 작업이 없는 작업은 어떻게 처리할 지 ?
+            for (Integer next : now.preWork) {
+                if (--dimen[next] == 0) {
+                    //다음 작업의 종료 시간 = 이전 작업이 끝나는 시간 + 현재 작업에 소요되는 시간
+                    work[next].endTime_ = now.endTime_ + work[next].time_;
+                    q.add(work[next]);
+                    max_time = Math.max(max_time, work[next].endTime_);
+                }
             }
-            else time = Math.max(time, now.time_);      //시간 최대값 저장
-            
-            preDimen = saveDimen[now.index_];
-            now.preWork.forEach(next -> {if(--dimen[next] == 0) q.add(work[next]);});
         }
-            
-        return time == 0 ? max_time : max_time + time;
+        
+        System.out.println("");
+        return max_time;
     }
     
     public static void main(String[] args) {
@@ -74,6 +76,7 @@ public class Main {
         for (int i = 0; i < N; i++) {
             work[i].time_ = sc.nextInt();
             int preWork = sc.nextInt();
+            if(i == 0) work[i].endTime_ = work[i].time_; //첫번째 작업의 종료 시간을 설정(무조건 1번 작업이 처음이므로 시작 기준을 정해줘야함)
             
             for (int j = 0; j < preWork; j++){
                 int w = sc.nextInt() - 1;       //w의 선행 작업이 i임
@@ -81,7 +84,8 @@ public class Main {
                 dimen[i]++;
             }
         }
-
+        
+        
         System.out.println(topology(N, work, dimen));
     }
     
