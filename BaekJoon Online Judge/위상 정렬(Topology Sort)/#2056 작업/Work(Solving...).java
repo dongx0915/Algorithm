@@ -1,23 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package TopologySort.BOJ2056;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-/**
- *
- * @author Donghyeon <20183188>
- */
 class Work{
     int index_;
     int time_;
-    int endTime_ = 0;
+    int endTime_ = 0; 
     
     ArrayList<Integer> preWork;
 
@@ -28,11 +17,6 @@ class Work{
     
 }
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
-    
     public static int topology(int N, Work[] work, int[] dimen){
         Queue<Work> q = new LinkedList<>();
         
@@ -44,14 +28,18 @@ public class Main {
             if(q.isEmpty()) return -1;
             Work now = q.poll();
             
+            /*현재 작업(now)가 끝나는 시간을 갱신
+            * endTime_은 이전 작업이 끝나는 시간으로 셋팅되어 있으므로 
+            * endTime_에 time_(현재 작업의 소요 시간)을 더해주면 현재 작업의 끝나는 시간이 됨
+            */
             now.endTime_ += now.time_;
             max_time = Math.max(max_time, now.endTime_);
             
-            now.preWork.stream().filter(next -> (--dimen[next] == 0)).map(next -> {
-                //다음 작업의 종료 시간 = 이전 작업이 끝나는 시간 + 현재 작업에 소요되는 시간
-                work[next].endTime_ = now.endTime_;
-                return next;
-            }).forEachOrdered(next -> { q.add(work[next]);});
+            for (Integer next: now.preWork) {
+                if(--dimen[next] == 0) q.add(work[next]);
+                
+                work[next].endTime_ = Math.max(work[next].endTime_, now.endTime_);
+            }
         }
         
         return max_time;
