@@ -36,12 +36,12 @@
 ```
 
  # 배열 역순 정렬(Arrays.sort())
- 
- ```java
-   배열을 내림차순으로 정렬할 때는 Collections 클래스의 reverseOrder() 함수를 사용하면 됨. 
-   만약 기본 타입 배열을 내림차순으로 정렬하고 싶다면 기본 타입의 배열을 래퍼클래스로 만들어 Comparator를 두번째 인자에 넣어주어야 역순으로 정렬할 수 있음.
-   ※ String은 기본 타입이 아님
+  - 배열을 내림차순으로 정렬할 때는 Collections 클래스의 reverseOrder() 함수를 사용하면 됨. 
+  - 만약 기본 타입 배열을 내림차순으로 정렬하고 싶다면 기본 타입의 배열을 래퍼클래스로 만들어 Comparator를 두번째 인자에 넣어주어야 역순으로 정렬할 수 있음.
+    
+    ***String은 기본 타입이 아님***
    
+```java
    Integer arr[] = {4,23,33,15,17,19};
    Arrays.sort(arr,Collections.reverseOrder());
  ```
