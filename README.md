@@ -1,7 +1,7 @@
 ### Algorithm
 <hr>
 
-[Java Tips](Programming-Information/Java-Tips/Java/)
+[Java Tips](../Programming-Information/Java-Tips/Java/)
 
 
 # Baekjoon Online Judge
