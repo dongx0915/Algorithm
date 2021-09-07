@@ -24,8 +24,7 @@ class Node{
     }
     
     public void ordering(int preOrder){
-        if(this.order_ == 0) this.order_ = preOrder;
-        else if(this.order_ == preOrder) carry_ = true;
+        if(this.order_ == preOrder) carry_ = true;
         else if(this.order_ < preOrder){
             this.order_ = preOrder;
             carry_ = false;
