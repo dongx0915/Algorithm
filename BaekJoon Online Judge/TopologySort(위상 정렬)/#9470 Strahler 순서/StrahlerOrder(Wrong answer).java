@@ -15,7 +15,7 @@ import java.util.Scanner;
  * @author Donghyeon <20183188>
  */
 class Node{
-    int order_ = 1;
+    int order_ = 0;
     boolean carry_ = false;
     ArrayList<Integer> next_;
     
@@ -24,7 +24,8 @@ class Node{
     }
     
     public void ordering(int preOrder){
-        if(this.order_ == preOrder) carry_ = true;
+        if(this.order_ == 0) this.order_ = preOrder;
+        else if(this.order_ == preOrder) carry_ = true;
         else if(this.order_ < preOrder){
             this.order_ = preOrder;
             carry_ = false;
@@ -44,7 +45,12 @@ public class Main {
     public static int topologySort(Node[] river, int[] di){
         Queue<Integer> q = new LinkedList<>();
         
-        for (int i = 0; i < M; i++) if(di[i]==0) q.offer(i);
+        for (int i = 0; i < M; i++){
+            if(di[i]==0) {
+                q.offer(i);
+                river[i].order_ = 1;
+            }
+        }
         
         for (int i = 0; i < M; i++) {
             int cur = q.poll();
