@@ -20,11 +20,20 @@
    2. **Hash Code**는 다르지만 **환산된 Index**가 같은 경우
 
  ## 해시 함수 예시
+ - getHashCode(Key)
   ```java
-  getHashCode(Key)
+  
       k      e      y       -> 문자열의 문자 각각을 아스키 코드로 변환함
     ASCII  ASCII  ASCII   = HashCode
     
   ex) key = sung
   s(115) + u(117) + n(110) + g(103) = 445(HashCode)
   ```
+ - ConvertToIndex(HashCode)
+ ```java
+   List<Data>[] table = new List[N] //고정된 배열(테이블) 선언(배열의 각 칸은 리스트로 이루어짐)
+   index = HashCode % size    //해시 코드를 배열의 size로 나눈 나머지를 인덱스로 이용
+   //충돌이 발생하면 리스트에 추가함
+   //인덱스에 접근해서 리스트를 돌면서 원하는 데이터를 찾는 방식
+ ```
+  
