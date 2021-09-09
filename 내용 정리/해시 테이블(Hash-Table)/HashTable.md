@@ -1,6 +1,8 @@
 # 해시 테이블(Hash Table)
 <hr>
 
+- [자바 HashMap 사용법](https://coding-factory.tistory.com/556)
+
 ## 해시 테이블의 구조
  - ***Func(key) -> HashCode -> Index -> Value***
  - 검색하고자하는 **Key** 값을 입력 받음
