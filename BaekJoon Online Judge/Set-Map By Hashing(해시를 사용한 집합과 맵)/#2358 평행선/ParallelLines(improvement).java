@@ -1,24 +1,26 @@
 package Hash.BOJ2358;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         // TODO code application logic here
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
         
         HashMap<Integer, ArrayList<Integer>> xMap = new HashMap<>();
         HashMap<Integer, ArrayList<Integer>> yMap = new HashMap<>();
         
-
-
         for (int i = 0; i < n; i++) {
-            int x = sc.nextInt();
-            int y = sc.nextInt();
+            st = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
             
             ArrayList<Integer> xValue = new ArrayList<>();
             ArrayList<Integer> yValue = new ArrayList<>();
