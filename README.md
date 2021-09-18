@@ -24,7 +24,7 @@
 - [ ] 14852 : 타일 채우기 3
 
 ## 문제 풀면서 알게된 사실
- # ConcurrentModificationException
+ ### ConcurrentModificationException
  
 ```java
   for (Integer next : beads[root].lightbeads_) {
@@ -35,7 +35,7 @@
   }                                                                     
 ```
 
- # 배열 역순 정렬(Arrays.sort())
+ ### 배열 역순 정렬(Arrays.sort())
   - 배열을 내림차순으로 정렬할 때는 Collections 클래스의 reverseOrder() 함수를 사용하면 됨. 
   - 만약 기본 타입 배열을 내림차순으로 정렬하고 싶다면 기본 타입의 배열을 래퍼클래스로 만들어 Comparator를 두번째 인자에 넣어주어야 역순으로 정렬할 수 있음.
     
@@ -46,7 +46,7 @@
    Arrays.sort(arr,Collections.reverseOrder());
  ```
 
- # 자바 EOF 처리
+ ### 자바 EOF 처리
   - Scanner의 경우는 hasNext(), hashNextLine() 메소드를 이용한다.
   ```java
     Scanner sc = new Scanner(System.in); 
