@@ -45,3 +45,33 @@
    Integer arr[] = {4,23,33,15,17,19};
    Arrays.sort(arr,Collections.reverseOrder());
  ```
+
+ # 자바 EOF 처리
+  - Scanner의 경우는 hasNext(), hashNextLine() 메소드를 이용한다.
+  ```java
+    Scanner sc = new Scanner(System.in); 
+    
+    while(sc.hasNextLine()) { sc.nextLine(); } 
+    while(sc.hasNext()) { sc.next(); }
+  ```
+  
+  - BufferedReader의 경우에는 EOF를 처리할 수 있는 내장 메소드가 없다.
+  ```java
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
+    String input = ""; 
+    
+    // 1 
+    while((input = br.readLine()) != null) { ... } 
+    
+    // 2
+    while((input = br.readLine()) != null && !input.isEmpty()) { ... } 
+    
+    // 3 
+    while(!(input = br.readLine()).equals("")) { ... }
+  ```
+  
+  - 1번 코드는 백준 사이트처럼 입력 자체가 파일로 들어온다면 EOF를 정상적으로 처리가능하다. 하지만 IDE에서는 입력의 끝을 알 수 없다. (EOF를 찾지 못해 프로그램이 끝나지 않는다.)
+  - 2번 코드는 1번 코드의 문제를 보완할 수 있다. 입력의 끝에 Enter를 한 번 더 입력하면 그 입력을 EOF로 판별하여 처리한다.
+  - 3번 코드는 역으로 IDE에서는 Enter로 EOF를 찾을 수 있지만, 백준 사이트처럼 입력 자체가 파일이라면 RuntimeError가 뜬다. (읽을 라인이 없는데 읽은 후, equals()를 수행하기 때문이다.)
+
+  **백준에서는 1, 2번 방법 둘 다 사용가능하다. Netbeans에서는 2번 방법을 이용하면 된다.**
