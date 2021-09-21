@@ -2,6 +2,7 @@
 <hr>
 
 - [자바 HashMap 사용법](https://coding-factory.tistory.com/556)
+- [자바 HashMap의 getOrDefault](https://velog.io/@w-beom/Java-HashMap%EC%9D%98-getOfDefault-%EC%A4%91%EB%B3%B5-%EA%B0%AF%EC%88%98-%ED%99%95%EC%9D%B8)
 
 ## 해시 테이블의 구조
  - ***Func(key) -> HashCode -> Index -> Value***
