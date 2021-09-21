@@ -1,22 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Hash.BOJ1351;
+import java.io.*;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.Scanner;
-
-/**
- *
- * @author Donghyeon <20183188>
- */
 public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
     public static HashMap<Long, Long> sequence;
     
     public static long getSequence(long index, long P, long Q){
@@ -29,20 +14,22 @@ public class Main {
         return sequence.get(index);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         // TODO code application logic here
         //A[0] = 1
         //A[i] = A[i/P] + a[i/Q] (i >= 1)
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
         
-        Scanner sc = new Scanner(System.in);
-        long N = sc.nextLong();
-        long P = sc.nextInt();
-        long Q = sc.nextInt();
+        long N = Long.parseLong(st.nextToken());
+        long P = Long.parseLong(st.nextToken());
+        long Q = Long.parseLong(st.nextToken());
         
         sequence = new HashMap<>();
         sequence.put((long)0, (long)1);
         
-        System.out.println(getSequence(N, P, Q));
+        bw.write(getSequence(N, P, Q) + "\n");
+        bw.flush();
     }
-
 }
