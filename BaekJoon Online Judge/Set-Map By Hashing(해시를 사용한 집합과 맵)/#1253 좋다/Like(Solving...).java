@@ -15,18 +15,12 @@ import java.util.Scanner;
  * @author Donghyeon <20183188>
  */
 class E{
-    int n1_;
-    int n2_;
-
-    public E(int n1_, int n2_) {
-        this.n1_ = n1_;
-        this.n2_ = n2_;
-    }
+    HashSet<Integer> set1 = new HashSet<>();
+    HashSet<Integer> set2 = new HashSet<>();
     
-    @Override
-    public boolean equals(Object o){
-        if(o instanceof E) return (this.n1_ == ((E) o).n1_) && (this.n2_ == ((E) o).n2_);
-        return false;
+    public void add(int n1, int n2){
+        this.set1.add(n1);
+        this.set2.add(n2);
     }
 }
 
@@ -37,25 +31,28 @@ public class Main {
      */
     
     public static int solution(int n, int[] num){
-        Hashtable<Integer, HashSet<E>> table = new Hashtable<>();
+        Hashtable<Integer, E> table = new Hashtable<>();
         int cnt = 0;
-        HashSet<E> set;
+        E e;
         
         for (int i = 0; i < n - 1; i++) {
             for (int j = i + 1; j < n; j++) {
                 int sum = num[i] + num[j];
                 
-                set = table.getOrDefault(sum, new HashSet<>());
-                set.add(new E(num[i], num[j]));
+                e = table.getOrDefault(sum, new E());
+                e.add(i, j);
                 
-                table.put(sum, set);
+                table.put(sum, e);
             }
         }
         
-        for (int i : num){
-            set = table.get(i);
-            
+        for (int i = 0; i < n; i++){
+            e = table.getOrDefault(num[i], null);
+            if(e == null) continue;
+            if(e.set1.contains(i) && e.set1.size() == 1 || e.set2.contains(i) && e.set2.size() == 1) continue;
+            cnt++;
         }
+        
         return cnt;
     }
     
