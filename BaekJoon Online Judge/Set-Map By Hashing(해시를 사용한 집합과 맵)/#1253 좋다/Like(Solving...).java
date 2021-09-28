@@ -5,53 +5,38 @@
  */
 package Hash.BOJ1253;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-/**
- *
- * @author Donghyeon <20183188>
- */
-class E{
-    HashSet<Integer> set1 = new HashSet<>();
-    HashSet<Integer> set2 = new HashSet<>();
-    
-    public void add(int n1, int n2){
-        this.set1.add(n1);
-        this.set2.add(n2);
+class Pair{
+    boolean flag_;
+    int index_;
+
+    public Pair(boolean flag_, int index_) {
+        this.flag_ = flag_;
+        this.index_ = index_;
     }
 }
 
-public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
-    
-    public static int solution(int n, int[] num){
-        Hashtable<Integer, E> table = new Hashtable<>();
+public class Main {
+    public static int solution(int n, int[] num, Hashtable<Integer, Pair> table){
         int cnt = 0;
-        E e;
         
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
                 int sum = num[i] + num[j];
+
+                Pair p = table.getOrDefault(sum, null);
                 
-                e = table.getOrDefault(sum, new E());
-                e.add(i, j);
+                if (p == null || p.index_ == i || p.index_ == j) continue;
                 
-                table.put(sum, e);
+                p.flag_ = true;
+                table.put(sum, p);
             }
         }
         
-        for (int i = 0; i < n; i++){
-            e = table.getOrDefault(num[i], null);
-            if(e == null) continue;
-            if(e.set1.contains(i) && e.set1.size() == 1 || e.set2.contains(i) && e.set2.size() == 1) continue;
-            cnt++;
-        }
+        for (int i = 0; i < n; i++) if(table.get(num[i]).flag_) cnt++;
         
         return cnt;
     }
@@ -61,10 +46,12 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int[] num = new int[n];
+        Hashtable<Integer, Pair> table = new Hashtable<>();
         
-        for (int i = 0; i < n; i++) num[i] = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            table.put((num[i] = sc.nextInt()), new Pair(false, i));
+        }
         
-        System.out.println(solution(n, num));
+        System.out.println(solution(n, num, table));
     }
-    
 }
