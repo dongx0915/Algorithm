@@ -52,21 +52,19 @@ public class Main {
      * @param args the command line arguments
      */
     public static int N,M;
-        //<부모 관계, 자식>
-    public static Hashtable<Parent, HashSet<String>> fam = new Hashtable<>();
-        //<이름, 상위 관계 수>
-    public static Hashtable<String, Integer> index = new Hashtable<>();
+                  
+    public static Hashtable<Parent, HashSet<String>> fam = new Hashtable<>(); /* <부모 관계, 자식> */
+    public static Hashtable<String, Integer> index = new Hashtable<>();       /* <이름, 상위 관계 수> */
+    public static Hashtable<String, Double> bloodline = new Hashtable<>();    /* <이름, 혈통> */
     
-    //Topology Sort 이용
+    /*Topology Sort 이용*/
     public static String getNextKing(String king){
-        Hashtable<String, Double> bloodline = new Hashtable<>();        
+        Queue<Parent> q = new LinkedList<>();
         bloodline.put(king, 1.0);
         
-        Queue<Parent> q = new LinkedList<>();
-        
         for (Map.Entry<Parent, HashSet<String>> entry : fam.entrySet()) {
-            Parent p = entry.getKey();
-            if((index.get(p.p_) + index.get(p.m_)) == 0) q.add(p);
+            Parent e = entry.getKey();
+            if((index.get(e.p_) + index.get(e.m_)) == 0) q.add(e);
         }
         
         HashSet<String> child;
@@ -86,10 +84,26 @@ public class Main {
             while(iter.hasNext()){
                 String c = iter.next();
                 bloodline.put(c, bc);
+                
+                int idx = index.get(c)-1;
+                if(idx < 0) idx = 0;
+                index.put(c, idx);  //자식의 상위 관계 수 -1
             }
-
+            
+            //이미 계산한 부모 관계는 제거
+            fam.remove(p);
+            
+            //다시 상위 관계가 없는 부모 관계를 큐에 삽입
+            for (Map.Entry<Parent, HashSet<String>> entry : fam.entrySet()) {
+                Parent e = entry.getKey();
+                if((index.get(e.p_) + index.get(e.m_)) == 0) q.add(e);
+            }
         }
         
+        //여기서 혈통의 값이 가장 큰 사람을 리턴하면 됨
+        for (Map.Entry<String, Double> entry : bloodline.entrySet()) {
+            
+        }
         return "";
     } 
     
