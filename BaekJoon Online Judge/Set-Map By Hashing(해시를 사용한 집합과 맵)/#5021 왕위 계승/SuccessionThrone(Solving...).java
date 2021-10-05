@@ -5,6 +5,7 @@
  */
 package Hash.BOJ5021;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -53,58 +54,68 @@ public class Main {
      */
     public static int N,M;
                   
-    public static Hashtable<Parent, HashSet<String>> fam = new Hashtable<>(); /* <부모 관계, 자식> */
-    public static Hashtable<String, Integer> index = new Hashtable<>();       /* <이름, 상위 관계 수> */
-    public static Hashtable<String, Double> bloodline = new Hashtable<>();    /* <이름, 혈통> */
+    public static Hashtable<Parent, HashSet<String>> family = new Hashtable<>(); /* <부모 관계, 자식> */
+    public static Hashtable<String, Integer> ancestor = new Hashtable<>();       /* <이름, 상위 관계 수> */
+    public static Hashtable<String, Double> bloodLine = new Hashtable<>();    /* <이름, 혈통> */
+    
+    public static void addSortTarget(Queue<Parent> q){
+        for (Map.Entry<Parent, HashSet<String>> entry : family.entrySet()) {
+            Parent e = entry.getKey();
+            if ((ancestor.getOrDefault(e.p_, 0) + ancestor.getOrDefault(e.m_, 0)) == 0) q.add(e);
+        }
+    }
     
     /*Topology Sort 이용*/
-    public static String getNextKing(String king){
+    public static String getNextKing(String king, ArrayList<String> nextKings){
         Queue<Parent> q = new LinkedList<>();
-        bloodline.put(king, 1.0);
+        bloodLine.put(king, 1.0);
         
-        for (Map.Entry<Parent, HashSet<String>> entry : fam.entrySet()) {
-            Parent e = entry.getKey();
-            if((index.get(e.p_) + index.get(e.m_)) == 0) q.add(e);
-        }
+        addSortTarget(q);
         
         HashSet<String> child;
         Iterator<String> iter;
         
         while(!q.isEmpty()){
             Parent p = q.poll();
-            child = fam.getOrDefault(p, null);
+            child = family.getOrDefault(p, null);
             
             if(child == null) continue;
             
-            double bp = bloodline.getOrDefault(p.p_, 0.0);
-            double bm = bloodline.getOrDefault(p.m_, 0.0);
+            double bp = bloodLine.getOrDefault(p.p_, 0.0);
+            double bm = bloodLine.getOrDefault(p.m_, 0.0);
             double bc = (bp + bm) / 2;
             
             iter = child.iterator();
             while(iter.hasNext()){
                 String c = iter.next();
-                bloodline.put(c, bc);
+                bloodLine.put(c, bc);
                 
-                int idx = index.get(c)-1;
+                int idx = ancestor.get(c)-1;
                 if(idx < 0) idx = 0;
-                index.put(c, idx);  //자식의 상위 관계 수 -1
+                ancestor.put(c, idx);  //자식의 상위 관계 수 -1
             }
             
             //이미 계산한 부모 관계는 제거
-            fam.remove(p);
+            family.remove(p);
             
             //다시 상위 관계가 없는 부모 관계를 큐에 삽입
-            for (Map.Entry<Parent, HashSet<String>> entry : fam.entrySet()) {
-                Parent e = entry.getKey();
-                if((index.get(e.p_) + index.get(e.m_)) == 0) q.add(e);
-            }
+            addSortTarget(q);
         }
         
         //여기서 혈통의 값이 가장 큰 사람을 리턴하면 됨
-        for (Map.Entry<String, Double> entry : bloodline.entrySet()) {
-            
+        Double max = Double.MIN_VALUE;
+        String nextKing = "";
+
+        for (String next : nextKings) {
+            if(bloodLine.containsKey(next)){
+                if(max < bloodLine.get(next)){
+                    max = bloodLine.get(next);
+                    nextKing = next;
+                }
+            }
         }
-        return "";
+        
+        return nextKing;
     } 
     
     public static void main(String[] args) {
@@ -120,18 +131,23 @@ public class Main {
         HashSet<String> child;
 
         for (int i = 0; i < N; i++) {
-            parent = new Parent(sc.next(), sc.next());
             c = sc.next();
+            parent = new Parent(sc.next(), sc.next());
             
             //부모 관계 밑에 자식을 추가
-            child = fam.getOrDefault(parent, new HashSet<>());
+            child = family.getOrDefault(parent, new HashSet<>());
             child.add(c);
             
-            fam.put(parent, child);
+            family.put(parent, child);
             
             //자식의 상위 관계에 +1
-            index.put(c, index.getOrDefault(c, -1) + 1);
+            ancestor.put(c, ancestor.getOrDefault(c, 0) + 1);
         }
+        
+        ArrayList<String> nextKings = new ArrayList<>();
+        for (int i = 0; i < M; i++)  nextKings.add(sc.next());
+        
+        System.out.println(getNextKing(king, nextKings));
     }
     
 }
