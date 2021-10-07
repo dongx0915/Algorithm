@@ -24,10 +24,12 @@ public class Main {
     public static int N;
     public static Hashtable<String, HashSet<String>> academy_table;
     
-    public static String getMembers(String name, HashSet<String> member){
+    public static String getMembers(String name, HashSet<String> members){
         if(academy_table.containsKey(name)){ //학회 이름이라면
-            
+            String[] mem = (String[])academy_table.get(name).toArray();
+            for (String m : mem) members.add(getMembers(m, members));
         }
+        return name;
     }
     
     public static void solution(){
