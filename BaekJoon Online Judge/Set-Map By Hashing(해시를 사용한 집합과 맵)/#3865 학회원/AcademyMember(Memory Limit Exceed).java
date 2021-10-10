@@ -24,36 +24,26 @@ public class Main {
     public static int N;
     public static Hashtable<String, HashSet<String>> academy_table;
     
-    public static String getMembers(String name, HashSet<String> members){
-        if(academy_table.containsKey(name)){ //학회 이름이라면
-            String[] mem = (String[])academy_table.get(name).toArray();
-            for (String m : mem) members.add(getMembers(m, members));
+    public static void getMembers(String name, HashSet<String> memberSet){
+        if(academy_table.containsKey(name)){ //학회 이름이라면 멤버에는 추가하지 않음
+            academy_table.get(name).forEach(m -> { getMembers(m, memberSet); });
         }
-        return name;
+        else memberSet.add(name);
     }
     
-    public static void solution(){
-        HashSet<String> members;
-
+    public static int solution(String result){
         for (Map.Entry<String, HashSet<String>> entry : academy_table.entrySet()) {
-            members = entry.getValue();
-            Iterator<String> iter = members.iterator();
+            Iterator<String> iter = entry.getValue().iterator();
+            HashSet<String> memberSet = new HashSet<>();
             
             while(iter.hasNext()){
-                String member = iter.next();
-
+                String member = iter.next(); /* 학회의 속한 그룹(학회원 or 학회) */
+                getMembers(member, memberSet);
             }
+            entry.setValue(memberSet);
         }
         
-        while (st.hasMoreTokens()) {
-            String member = st.nextToken();
-            if (academy_table.containsKey(member)) {
-                members.addAll(academy_table.get(member));
-            } else {
-                members.add(member);
-            }
-        }
-        academy_table.put(academy, members);
+        return academy_table.get(result).size();
     }
     
     public static void main(String[] args) {
@@ -77,7 +67,7 @@ public class Main {
                 academy_table.put(academy, member);
             }
             
-            System.out.println(academy_table.get(result).size());
+            System.out.println(solution(result));
         }
     }
     
