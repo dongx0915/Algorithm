@@ -5,6 +5,9 @@
  */
 package Hash.BOJ3865;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -25,9 +28,8 @@ public class Main {
     public static Hashtable<String, HashSet<String>> academy_table;
     
     public static void getMembers(String name, HashSet<String> memberSet){
-        if(academy_table.containsKey(name)){ //학회 이름이라면 멤버에는 추가하지 않음
-            academy_table.get(name).forEach(m -> { getMembers(m, memberSet); });
-        }
+        //학회 이름이라면 멤버에는 추가하지 않음
+        if(academy_table.containsKey(name)) academy_table.get(name).forEach(m -> { getMembers(m, memberSet); });
         else memberSet.add(name);
     }
     
@@ -36,29 +38,27 @@ public class Main {
             Iterator<String> iter = entry.getValue().iterator();
             HashSet<String> memberSet = new HashSet<>();
             
-            while(iter.hasNext()){
-                String member = iter.next(); /* 학회의 속한 그룹(학회원 or 학회) */
-                getMembers(member, memberSet);
-            }
+            while(iter.hasNext()) getMembers(iter.next(), memberSet); /* 학회의 속한 그룹(학회원 or 학회) */
+            
             entry.setValue(memberSet);
         }
         
         return academy_table.get(result).size();
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         // TODO code application logic here
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        academy_table = new Hashtable<>();
         
         //학회 : 학회원(멤버) .
-        while((N = sc.nextInt()) != 0){
+        while((N = Integer.parseInt(br.readLine())) != 0){
             String result = "";
             HashSet<String> member;
+            academy_table = new Hashtable<>();
             
             for (int i = 0; i < N; i++) {
-                st = new StringTokenizer(sc.next(), "[:,.]");
+                st = new StringTokenizer(br.readLine(), "[:,.]");
                 String academy = st.nextToken();
                 if(i == 0) result = academy;
                 member = academy_table.getOrDefault(academy, new HashSet<>());
