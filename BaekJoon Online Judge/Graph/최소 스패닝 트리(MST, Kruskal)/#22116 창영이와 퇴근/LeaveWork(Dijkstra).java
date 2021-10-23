@@ -75,7 +75,12 @@ public class Main {
     
     public static int dijkstra(int start, ArrayList<Edge>[] edge){
         PriorityQueue<Edge> pq = new PriorityQueue<>();
-        dis[start].d_ = dis[start].prev_ = 0;
+        dis[start].d_ = 0;
+        dis[start].prev_ = -1; 
+        /*
+        * 이 부분을 -1로 해놓지 않으면 밑에 maxHeight 계산하는 부분에서 시작 노드를 게산하지 않게 됨
+        * node.prev != 0 일 때만 반복문이 도는데 경로 상에서 2번 째 노드의 prev는 0(첫 번째 노드)이므로 두 번째 노드에서 반복문이 끊기게 됨
+        */
         pq.add(new Edge(start, dis[start].d_));
 
         while(!pq.isEmpty()){
@@ -96,7 +101,8 @@ public class Main {
         Dis node = dis[N*N-1];
         int maxHeight = 0;
         
-        while(node.prev_ != 0){
+        while(node.prev_ != -1){
+            //System.out.println(node.prev_);
             maxHeight = Math.max(maxHeight, Math.abs(node.d_ - dis[node.prev_].d_));
             node = dis[node.prev_];
         }
