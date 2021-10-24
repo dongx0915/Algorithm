@@ -15,11 +15,11 @@ import java.util.Scanner;
  * @author Donghyeon <20183188>
  */
 class Edge implements Comparable<Edge>{
-    int index_;
+    int idx_;
     int d_;
 
     public Edge(int n, int dis) {
-        this.index_ = n;
+        this.idx_ = n;
         this.d_ = dis;
     }
     
@@ -86,28 +86,28 @@ public class Main {
         while(!pq.isEmpty()){
             Edge cur = pq.poll();
             
-            if(dis[cur.index_].d_ < cur.d_) continue;
+            if(dis[cur.idx_].d_ < cur.d_) continue;
             
-            for (Edge e : edge[cur.index_]) {
-                if(dis[e.index_].d_ > dis[cur.index_].d_ + e.d_){
-                    dis[e.index_].d_ = dis[cur.index_].d_ + e.d_;
-                    dis[e.index_].prev_ = cur.index_;
+            for (Edge next : edge[cur.idx_]) {
+                if(dis[next.idx_].d_ > Math.max(dis[cur.idx_].d_, next.d_)){
+                    dis[next.idx_].d_ = Math.max(dis[cur.idx_].d_, next.d_);
+                    //dis[next.idx_].prev_ = cur.idx_;
                     
-                    pq.add(new Edge(e.index_, dis[e.index_].d_));
+                    pq.add(new Edge(next.idx_, dis[next.idx_].d_));
                 }
             }
         }
         
-        Dis node = dis[N*N-1];
-        int maxHeight = 0;
+//        Dis node = dis[N*N-1];
+//        int maxHeight = 0;
+//        
+//        while(node.prev_ != -1){
+//            System.out.println(node.prev_);
+//            maxHeight = Math.max(maxHeight, Math.abs(node.d_ - dis[node.prev_].d_));
+//            node = dis[node.prev_];
+//        }
         
-        while(node.prev_ != -1){
-            //System.out.println(node.prev_);
-            maxHeight = Math.max(maxHeight, Math.abs(node.d_ - dis[node.prev_].d_));
-            node = dis[node.prev_];
-        }
-        
-        return maxHeight;
+        return dis[N*N-1].d_;
     }
         
     public static void main(String[] args) {
