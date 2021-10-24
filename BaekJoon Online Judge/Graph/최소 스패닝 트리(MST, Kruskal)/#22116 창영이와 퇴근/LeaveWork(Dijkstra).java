@@ -27,16 +27,6 @@ class Edge implements Comparable<Edge>{
     public int compareTo(Edge e){return this.d_ - e.d_;}
 }
 
-class Dis{
-    int d_;
-    int prev_;
-
-    public Dis(int dis_, int prev_) {
-        this.d_ = dis_;
-        this.prev_ = prev_;
-    }
-}
-
 public class Main {
 
     /**
@@ -44,7 +34,7 @@ public class Main {
      */
     public static final int INF = 1_000_000_001;
     public static int N;
-    public static Dis[] dis;
+    public static int[] dis;
     public static int[][] map;
     
     public static ArrayList<Edge>[] setEdge(int N){
@@ -75,39 +65,24 @@ public class Main {
     
     public static int dijkstra(int start, ArrayList<Edge>[] edge){
         PriorityQueue<Edge> pq = new PriorityQueue<>();
-        dis[start].d_ = 0;
-        dis[start].prev_ = -1; 
-        /*
-        * 이 부분을 -1로 해놓지 않으면 밑에 maxHeight 계산하는 부분에서 시작 노드를 게산하지 않게 됨
-        * node.prev != 0 일 때만 반복문이 도는데 경로 상에서 2번 째 노드의 prev는 0(첫 번째 노드)이므로 두 번째 노드에서 반복문이 끊기게 됨
-        */
-        pq.add(new Edge(start, dis[start].d_));
+        dis[start] = 0;
+        pq.add(new Edge(start, dis[start]));
 
         while(!pq.isEmpty()){
             Edge cur = pq.poll();
             
-            if(dis[cur.idx_].d_ < cur.d_) continue;
+            if(dis[cur.idx_] < cur.d_) continue;
             
             for (Edge next : edge[cur.idx_]) {
-                if(dis[next.idx_].d_ > Math.max(dis[cur.idx_].d_, next.d_)){
-                    dis[next.idx_].d_ = Math.max(dis[cur.idx_].d_, next.d_);
-                    //dis[next.idx_].prev_ = cur.idx_;
+                if(dis[next.idx_] > Math.max(dis[cur.idx_], next.d_)){
+                    dis[next.idx_] = Math.max(dis[cur.idx_], next.d_);
                     
-                    pq.add(new Edge(next.idx_, dis[next.idx_].d_));
+                    pq.add(new Edge(next.idx_, dis[next.idx_]));
                 }
             }
         }
-        
-//        Dis node = dis[N*N-1];
-//        int maxHeight = 0;
-//        
-//        while(node.prev_ != -1){
-//            System.out.println(node.prev_);
-//            maxHeight = Math.max(maxHeight, Math.abs(node.d_ - dis[node.prev_].d_));
-//            node = dis[node.prev_];
-//        }
-        
-        return dis[N*N-1].d_;
+
+        return dis[N*N-1];
     }
         
     public static void main(String[] args) {
@@ -116,9 +91,9 @@ public class Main {
         N = sc.nextInt();
         
         map = new int[N][N];
-        dis = new Dis[N*N];
+        dis = new int[N*N];
         
-        for (int i = 0; i < N*N; i++) dis[i]= new Dis(INF, 0);
+        Arrays.fill(dis, INF);
         for (int i = 0; i < N; i++) for (int j = 0; j < N; j++) map[i][j] = sc.nextInt();
 
         System.out.println(dijkstra(0, setEdge(N)));
