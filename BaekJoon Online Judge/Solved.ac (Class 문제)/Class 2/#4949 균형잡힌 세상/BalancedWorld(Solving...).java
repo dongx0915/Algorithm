@@ -18,15 +18,20 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    public static final int ROUND = -1;
+    public static final int SQUARE = 1;
+    
     public static String isPairString(String str){
         int square = 0;
         int round = 0;
-        boolean prev = false;
+        int prev = 0;
         
         for (int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);
             if(round < 0 || square < 0) return "no";
-            
+            if(ch == ']') if(prev == ROUND) return "no";
+            if(ch == ')') if(prev == SQUARE) return "no";
+                
             switch (ch) {
                 case '[': square++; break;
                 case ']': square--; break;
@@ -35,8 +40,8 @@ public class Main {
                 default : break;
             }
             
-            if(ch == '[' || ch == ']') prev = false;
-            else if(ch == '(' || ch == ')') prev = true;
+            if(ch == '[') prev = SQUARE;
+            else if(ch == '(') prev = ROUND;
         }
                 
         return (round == 0 && square == 0) ? "yes" : "no";
