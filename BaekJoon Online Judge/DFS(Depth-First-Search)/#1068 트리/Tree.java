@@ -33,7 +33,7 @@ public class Main {
     public static int dfs(Node[] node, int n, int root){
         int reef_node = 0;
         boolean[] visited = new boolean[n];
-        Stack<Integer> s = new Stack<>();
+        Stack<Integer> s = new Stack<>();       //Stack을 쓰면 dfs, Queue를 쓰면 bfs가 됨
         
         s.push(root);
         visited[root] = true;
@@ -55,10 +55,10 @@ public class Main {
     }
     
     public static void eraseNode(Node[] node, int erase_node, int n){
-        Node parent_node = node[node[erase_node].parent_];
+        Node parent_node = node[node[erase_node].parent_];      //지울 노드의 부모 노드를 찾음
         
-        int erase_idx = parent_node.adj_.indexOf(erase_node);
-        if (erase_idx >= 0) parent_node.adj_.remove(erase_idx);
+        int erase_idx = parent_node.adj_.indexOf(erase_node);   //부모의 자식 리스트 중에서 지울 노드의 인덱스를 가져옴
+        if (erase_idx >= 0) parent_node.adj_.remove(erase_idx); //지울 노드가 존재하면 지움 (indexOf는 없으면 -1을 리턴)
     }
     
     public static void main(String[] args) {
@@ -80,8 +80,8 @@ public class Main {
         
         if(node[erase_node].parent_ == -1) System.out.println("0");
         else{
-            eraseNode(node, erase_node, n);
-            System.out.println(dfs(node, n, root_node));
+            eraseNode(node, erase_node, n);     //지울 노드를 먼저 지워버림
+            System.out.println(dfs(node, n, root_node)); //그 후 리프 노드의 개수를 셈
         }
     }
 }
