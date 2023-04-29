@@ -1,0 +1,1 @@
+fun main(){ println(readln().split(" ").map { it.toInt() }.run { this[0] * this[1] + this[2] * this[3] }) }
