@@ -1,12 +1,15 @@
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.util.LinkedList
 import java.util.Queue
+import java.util.StringTokenizer
 
 private val map: Array<Array<Boolean>> = Array(8){ Array(8){ false } }
 private val dx = arrayOf(-2,-1, 1, 2, 2, 1,-1,-2)
 private val dy = arrayOf(-1,-2,-2,-1, 1, 2, 2, 1)
 
 data class Posit(val x:Int, val y:Int, val cnt: Int = 0){
-    fun isOutRange() = x < 0 || x >= 8 || y < 0 || y >= 8
+    fun isOutRange() = x !in 0 until 8 || y !in 0 until 8
 
     override fun equals(other: Any?): Boolean {
         val other:Posit = (other as? Posit) ?: return false
@@ -37,8 +40,13 @@ fun bfs(start: Posit, end: Posit): Int {
 }
 
 fun main(){
-    val start = readln().split(" ").map { it.toInt() }.let {Posit(it[0]-1, it[1]-1) }
-    val end = readln().split(" ").map { it.toInt() }.let {Posit(it[0]-1, it[1]-1)}
+    val br = BufferedReader(InputStreamReader(System.`in`))
+    val start = StringTokenizer(br.readLine()).let {
+        Posit(it.nextToken().toInt()-1, it.nextToken().toInt()-1)
+    }
+    val end = StringTokenizer(br.readLine()).let {
+        Posit(it.nextToken().toInt()-1, it.nextToken().toInt()-1)
+    }
 
     println(bfs(start, end))
 }

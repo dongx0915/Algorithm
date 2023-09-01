@@ -2,7 +2,7 @@
 
 | 제출 번호 | 닉네임 | 채점 결과 | 메모리 | 시간 | 언어 | 코드 길이 |
 |---|---|---|---|---|---|---|
-|65950713|dongdong99|맞았습니다!! |20788KB|140ms|Kotlin (JVM)|1242B|
+|65950960|dongdong99|맞았습니다!! |12240KB|92ms|Kotlin (JVM)|1477B|
 
 ## 문제
 <p>Below is an 8 × 8 chessboard on which we will designate square locations using the ordered pairs as indicated. For example, notice that piece A is at position (2, 2) and piece B is at position (4, 3).</p>
